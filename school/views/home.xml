@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="SRK_School"
+              name="SRK SCHOOL"
+    />
+    <menuitem id="School_Academics"
+              name="Academics"
+              parent="SRK_School"
+    />
+
+    <menuitem id="School_student"
+              name="Student"
+              parent="School_Academics"
+    />
+    <menuitem id="School_student_"
+              name="Student"
+              parent="School_student"
+              action="action_school_student"
+    />
+
+    <menuitem id="school_teacher"
+              name="Teacher"
+              parent="School_Academics"
+              action="action_school_teacher"
+    />
+
+    <menuitem id="school_fee_structure"
+              name="Fee Structure"
+              parent="School_student"
+              action="action_school_fee_structure"/>
+
+    <menuitem id="school_query"
+              name="Admission"
+              parent="SRK_School"
+              action="action_school_query"/>
+</odoo>
