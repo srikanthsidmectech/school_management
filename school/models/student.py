@@ -1,5 +1,8 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 from datetime import datetime
+
+
 class SchoolStudent(models.Model):
     _name = "school.student"
     _description = "School Student"
@@ -20,7 +23,7 @@ class SchoolStudent(models.Model):
     teacher_id = fields.Many2one('school.teacher', string='Class Teacher')
     teaching_staff_ids = fields.Many2many('school.teacher', string='Teaching Staff')
     class_teacher_subject = fields.Char(string="Subject", readonly=True)
-    age = fields.Integer(string='Age', compute='_compute_age', store=True,readonly=True)
+    age = fields.Integer(string='Age', compute='_compute_age', store=True, readonly=True)
 
     fee_structure_ids = fields.One2many('school.fee.structure', 'student_id', string='Fee Structure')
 
@@ -40,4 +43,10 @@ class SchoolStudent(models.Model):
             else:
                 rec.age = 0
 
-
+    @api.model
+    def create(self, vals):
+        if vals.get('stu_guard'):
+            existing_student = self.search([('stu_guard', '=', vals['stu_guard'])])
+            if existing_student:
+                raise ValidationError('A student with this guardian already exists.')
+        return super(SchoolStudent, self).create(vals)

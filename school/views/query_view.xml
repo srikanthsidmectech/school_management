@@ -24,7 +24,8 @@
             <form string="Query">
                 <header>
                     <button name="action_create_student" type="object" string="Create Student" class="btn-primary"/>
-                 </header>
+                    <field name="status" widget="statusbar" statusbar_visible="not_created, created"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="student_name"/>
