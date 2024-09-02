@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from datetime import datetime
 
 
@@ -24,8 +24,16 @@ class SchoolStudent(models.Model):
     teaching_staff_ids = fields.Many2many('school.teacher', string='Teaching Staff')
     class_teacher_subject = fields.Char(string="Subject", readonly=True)
     age = fields.Integer(string='Age', compute='_compute_age', store=True, readonly=True)
-
     fee_structure_ids = fields.One2many('school.fee.structure', 'student_id', string='Fee Structure')
+    status = fields.Selection([
+        ('not_created', 'INCOMPLETE'),
+        ('created', 'COMPLETE')
+    ], string='Status', default="not_created")
+
+    def action_create_student(self):
+            for record in self:
+                if record.status == 'not_created':
+                    record.status = 'created'
 
     @api.onchange('teacher_id')
     def onchange_teacher_id(self):
