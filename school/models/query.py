@@ -7,10 +7,10 @@ class NewStudent(models.Model):
     _rec_name = 'student_name'
     _inherit=["mail.thread"]
 
-    student_name = fields.Char(string="Name",tracking=True)
-    student_class = fields.Char(string='Class',tracking=True)
-    stu_parent_name = fields.Char(string='Father Name',tracking=True)
-    mobile_number = fields.Char(string='Father Mobile No',tracking=True)
+    student_name = fields.Char(string="Name",tracking=True,required=True)
+    student_class = fields.Char(string='Class',tracking=True,required=True)
+    stu_parent_name = fields.Char(string='Father Name',tracking=True,required=True)
+    mobile_number = fields.Char(string='Father Mobile No',tracking=True,required=True)
     status = fields.Selection([
         ('not_created', 'INCOMPLETE'),
         ('created', 'COMPLETE')
