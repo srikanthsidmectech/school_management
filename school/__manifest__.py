@@ -3,6 +3,7 @@
     'category': 'management',
     'version': '17.0.0.2',
     'author': 'SREEKANTH',
+    'depends': ['mail'],
     'data': [
         'security/ir.model.access.csv',
         'views/student_view.xml',

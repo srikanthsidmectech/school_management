@@ -5,11 +5,12 @@ class NewStudent(models.Model):
     _name = 'school.query'
     _description = "New Admission"
     _rec_name = 'student_name'
+    _inherit=["mail.thread"]
 
-    student_name = fields.Char(string="Name")
-    student_class = fields.Char(string='Class')
-    stu_parent_name = fields.Char(string='Father Name')
-    mobile_number = fields.Char(string='Father Mobile No')
+    student_name = fields.Char(string="Name",tracking=True)
+    student_class = fields.Char(string='Class',tracking=True)
+    stu_parent_name = fields.Char(string='Father Name',tracking=True)
+    mobile_number = fields.Char(string='Father Mobile No',tracking=True)
     status = fields.Selection([
         ('not_created', 'INCOMPLETE'),
         ('created', 'COMPLETE')
