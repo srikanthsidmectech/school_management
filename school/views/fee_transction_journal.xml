@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Tree View Definition for Fee Structure -->
+    <record id="view_fee_journal_tree" model="ir.ui.view">
+        <field name="name">school.fee.transaction.tree</field>
+        <field name="model">school.fee.transaction</field>
+        <field name="arch" type="xml">
+
+            <tree string="journal">
+                <!--<field name="student_name"/>-->
+                <field name="type_of_transaction"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_fee_journal_form" model="ir.ui.view">
+        <field name="name">school.fee.transaction.form</field>
+        <field name="model">school.fee.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Fee Structure">
+                <sheet>
+                    <group>
+
+                        <field name="type_of_transaction"/>
+
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+    <!-- Action Definition for Fee Structure -->
+    <record id="action_school_transaction_journal" model="ir.actions.act_window">
+        <field name="name">Journal</field>
+        <field name="res_model">school.fee.transaction</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_fee_journal_tree"/>
+    </record>
+</odoo>

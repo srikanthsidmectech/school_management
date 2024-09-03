@@ -33,4 +33,9 @@
               name="Admission"
               parent="SRK_School"
               action="action_school_query"/>
+
+    <menuitem id="school_fee_transaction"
+              name="Journal"
+              parent="School_student"
+              action="action_school_transaction_journal"/>
 </odoo>

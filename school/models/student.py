@@ -9,7 +9,7 @@ class SchoolStudent(models.Model):
     _rec_name = 'stu_name'
     _inherit = ["mail.thread"]
 
-    stu_name = fields.Char("Name", required=True, tracking=True)
+    stu_name = fields.Char("Name", tracking=True)
     stu_standard = fields.Selection([
         ('7', '7'),
         ('8', '8'),
@@ -23,13 +23,14 @@ class SchoolStudent(models.Model):
     date_of_joining = fields.Date(string="Date of Joining", required=True, tracking=True)
     teacher_id = fields.Many2one('school.teacher', string='Class Teacher', tracking=True)
     teaching_staff_ids = fields.Many2many('school.teacher', string='Teaching Staff', tracking=True)
-    class_teacher_subject = fields.Char(string="Subject", readonly=True, required=True, tracking=True)
+    class_teacher_subject = fields.Char(string="Subject", readonly=True, tracking=True)
     age = fields.Integer(string='Age', compute='_compute_age', store=True, readonly=True, tracking=True)
     fee_structure_ids = fields.One2many('school.fee.structure', 'student_id', string='Fee Structure', tracking=True)
     status = fields.Selection([
         ('not_created', 'INCOMPLETE'),
         ('created', 'COMPLETE')
     ], string='Status', default="not_created", tracking=True)
+
 
     def action_create_student(self):
         for record in self:
@@ -40,6 +41,7 @@ class SchoolStudent(models.Model):
     def onchange_teacher_id(self):
         if self.teacher_id:
             self.class_teacher_subject = self.teacher_id.subject
+
 
     @api.depends('date_of_birth')
     def _compute_age(self):

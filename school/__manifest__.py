@@ -8,6 +8,7 @@
         'security/ir.model.access.csv',
         'views/student_view.xml',
         'views/teacher_view.xml',
+        'views/fee_transction_journal.xml',
         'views/fee_structureview.xml',
         'views/query_view.xml',  # Ensure this file name is correct
         'views/sale_orderinherit_views.xml',
