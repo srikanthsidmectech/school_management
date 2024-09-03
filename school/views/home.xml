@@ -38,4 +38,11 @@
               name="Journal"
               parent="School_student"
               action="action_school_transaction_journal"/>
+    <!-- Menu Item Definition -->
+    <menuitem id="menu_student_suggestions"
+              name="Student Suggestions"
+              parent="School_student"
+              action="action_student_suggestions"/>
+
+
 </odoo>

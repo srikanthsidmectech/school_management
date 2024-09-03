@@ -4,3 +4,4 @@ access_school_student,access_school_student,model_school_student,base.group_user
 access_school_transaction_journal,access_school_transaction_journal,model_school_fee_transaction,base.group_user,1,1,1,1
 access_school_fee_structure,access_school_fee_structure,model_school_fee_structure,base.group_user,1,1,1,1
 access_school_query,access_school_query,model_school_query,base.group_user,1,1,1,1
+access_student_suggestions,access_student_suggestions,model_school_student_suggestion,base.group_user,1,1,1,1

@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from datetime import datetime
 
@@ -31,7 +31,6 @@ class SchoolStudent(models.Model):
         ('created', 'COMPLETE')
     ], string='Status', default="not_created", tracking=True)
 
-
     def action_create_student(self):
         for record in self:
             if record.status == 'not_created':
@@ -41,7 +40,6 @@ class SchoolStudent(models.Model):
     def onchange_teacher_id(self):
         if self.teacher_id:
             self.class_teacher_subject = self.teacher_id.subject
-
 
     @api.depends('date_of_birth')
     def _compute_age(self):
@@ -61,3 +59,15 @@ class SchoolStudent(models.Model):
             if existing_student:
                 raise ValidationError('A student with this guardian already exists.')
         return super(SchoolStudent, self).create(vals)
+
+    def action_student_suggestions(self):
+        return {
+            'name': _('Suggestion'),
+            'view_mode': 'form',
+            'res_model': 'school.student.suggestion',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': {
+                'default_student_id': self.stu_name
+            }
+        }

@@ -25,6 +25,7 @@
             <form string="Student">
                 <header>
                     <button name="action_create_student" type="object" string="Create Student" class="btn-primary"/>
+                    <button name="action_student_suggestions" type="object" string="Suggest" class="oe_highlight"/>
                     <field name="status" widget="statusbar" statusbar_visible="not_created, created"/>
                 </header>
                 <sheet>
@@ -62,6 +63,7 @@
             </form>
         </field>
     </record>
+
 
     <!-- Action Definition -->
     <record id="action_school_student" model="ir.actions.act_window">
