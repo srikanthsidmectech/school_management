@@ -21,7 +21,7 @@
             <form string="Suggestions">
                 <sheet>
                     <group>
-                        <field name="student_id"/>
+<!--                        <field name="student_id"/>-->
                         <field name="student_name"/>
                         <field name="stu_guard"/>
                         <field name="suggestion"/>

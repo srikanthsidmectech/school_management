@@ -68,6 +68,7 @@ class SchoolStudent(models.Model):
             'type': 'ir.actions.act_window',
             'target': 'new',
             'context': {
-                'default_student_id': self.stu_name
+                'default_student_name': self.stu_name,
+                'default_student_guard': self.stu_guard
             }
         }

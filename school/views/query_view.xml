@@ -6,6 +6,7 @@
         <field name="model">school.query</field>
         <field name="arch" type="xml">
             <tree string="Query">
+                <field name="custom_integer_id"/>
                 <field name="student_name"/>
                 <field name="student_class"/>
 

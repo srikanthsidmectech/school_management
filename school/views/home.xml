@@ -44,5 +44,4 @@
               parent="School_student"
               action="action_student_suggestions"/>
 
-
 </odoo>
