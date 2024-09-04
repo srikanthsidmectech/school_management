@@ -17,7 +17,7 @@ class SchoolStudent(models.Model):
         ('10', '10')
     ], string='Standard', default='7', tracking=True)
     stu_address = fields.Text(string="Address", tracking=True)
-    date_of_birth = fields.Date(string='Date of Birth', required=True, tracking=True)
+    date_of_birth = fields.Date(string='Date of Birth', tracking=True)
     stu_guard = fields.Char(string="Guardian", required=True, tracking=True)
     stu_guard_ph_no = fields.Char(string="Guardian Mobile Number", tracking=True)
     date_of_joining = fields.Date(string="Date of Joining", required=True, tracking=True)
