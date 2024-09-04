@@ -32,12 +32,12 @@
                         <!--<field name="student_id"/>
                         <field name="student_name" readonly="1"/>-->
                         <field name="type_of_transaction"/>
-                         <field name="amount"/>
+                        <field name="amount"/>
                         <field name="fee_type"/>
                         <field name="date_due"/>
                     </group>
                 </sheet>
-                 <div class="oe_chatter">
+                <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>
                     <field name="message_ids"/>
                 </div>

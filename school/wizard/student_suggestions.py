@@ -28,7 +28,7 @@ class StudentSuggestion(models.TransientModel):
         context = self.env.context
 
         default_student_name = context.get('default_student_name')
-        default_student_guard= context.get('default_student_guard')
+        default_student_guard = context.get('default_student_guard')
 
         if default_student_name:
             res.update({
