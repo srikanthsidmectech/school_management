@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Tree View Definition -->
+    <record id="view_school_query_tree" model="ir.ui.view">
+        <field name="name">school.query.tree</field>
+        <field name="model">school.query</field>
+        <field name="arch" type="xml">
+            <tree string="Query">
+                <field name="custom_integer_id"/>
+                <field name="student_name"/>
+                <field name="student_class"/>
+
+                <field name="stu_parent_name" optional='hide'/>
+                <field name="mobile_number" optional='hide'/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View Definition -->
+    <record id="view_school_query_form" model="ir.ui.view">
+        <field name="name">school.query.form</field>
+        <field name="model">school.query</field>
+        <field name="arch" type="xml">
+            <form string="Query">
+                <header>
+                    <button name="action_create_student" type="object" string="Create Student" class="btn-primary"/>
+                    <field name="status" widget="statusbar" statusbar_visible="not_created, created"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="student_name"/>
+                        <field name="student_class"/>
+                        <field name="stu_parent_name"/>
+                        <field name="mobile_number"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action Definition -->
+    <record id="action_school_query" model="ir.actions.act_window">
+        <field name="name">Admission</field>
+        <field name="res_model">school.query</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_school_query_tree"/>
+    </record>
+
+
+</odoo>

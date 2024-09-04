@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Tree View Definition -->
+    <record id="view_school_student_tree" model="ir.ui.view">
+        <field name="name">school.student.tree</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <tree string="Students">
+                <field name="stu_name"/>
+                <field name="stu_standard"/>
+
+                <field name="stu_guard" optional='hide'/>
+                <field name="teacher_id" optional='hide'/>
+                <field name="age"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View Definition -->
+    <record id="view_school_student_form" model="ir.ui.view">
+        <field name="name">school.student.form</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <form string="Student">
+                <header>
+                    <button name="action_create_student" type="object" string="Create Student" class="btn-primary"/>
+                    <button name="action_student_suggestions" type="object" string="Suggest" class="oe_highlight"/>
+                    <field name="status" widget="statusbar" statusbar_visible="not_created, created"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="stu_name"/>
+                        <field name="stu_standard"/>
+                        <field name="date_of_birth"/>
+                        <field name="age"/>
+                        <field name="date_of_joining"/>
+                    </group>
+                    <notebook>
+                        <page string="FEE STRUCTURE LINES">
+                            <field name="fee_structure_ids"/>
+                        </page>
+                        <page string="Additional Details">
+                            <group>
+                                <group>
+                                    <field name="stu_guard"/>
+                                    <field name="teacher_id"/>
+                                    <field name="class_teacher_subject"/>
+                                    <field name="stu_address"/>
+                                </group>
+                                <group>
+                                    <field name="stu_guard_ph_no"/>
+                                    <field name="teaching_staff_ids" widget='many2many_tags'/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Action Definition -->
+    <record id="action_school_student" model="ir.actions.act_window">
+        <field name="name">Student</field>
+        <field name="res_model">school.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_school_student_tree"/>
+    </record>
+
+</odoo>
