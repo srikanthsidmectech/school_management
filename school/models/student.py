@@ -16,6 +16,10 @@ class SchoolStudent(models.Model):
         ('9', '9'),
         ('10', '10')
     ], string='Standard', default='7', tracking=True)
+    user_id= fields.Many2one('res.users',string='login id')
+    user_name= fields.Char(related='user_id.name', string='User', tracking=True,readonly=True)
+
+    # email=fields.Char(string="E-mail id")
     stu_address = fields.Text(string="Address", tracking=True)
     date_of_birth = fields.Date(string='Date of Birth', tracking=True)
     stu_guard = fields.Char(string="Guardian", required=True, tracking=True)
@@ -31,15 +35,33 @@ class SchoolStudent(models.Model):
         ('created', 'COMPLETE')
     ], string='Status', default="not_created", tracking=True)
 
+    suggestion_ids = fields.One2many('school.student.suggestion', 'student_id', string='Suggestions')
+    suggestion_count = fields.Integer(string='Number of Suggestions', compute='_compute_suggestion_count')
+
     def action_create_student(self):
         for record in self:
             if record.status == 'not_created':
+                user_vals = {
+                    'name': record.stu_name,
+                    'login': record.stu_name,
+                    'email': f"{record.stu_name}@gmail.com",
+                    'password': record.stu_name,
+                    'groups_id': [(6, 0, [record.env.ref('school.group_school_student').id])]
+                }
+
+                # Create the user
+                self.env['res.users'].create(user_vals)
+
+                # Update the record status
                 record.status = 'created'
 
     @api.onchange('teacher_id')
     def onchange_teacher_id(self):
-        if self.teacher_id:
-            self.class_teacher_subject = self.teacher_id.subject
+        for rec in self:
+            if rec.teacher_id:
+                rec.class_teacher_subject = rec.teacher_id.subject
+            else:
+                rec.class_teacher_subject = False
 
     @api.depends('date_of_birth')
     def _compute_age(self):
@@ -72,3 +94,27 @@ class SchoolStudent(models.Model):
                 'default_student_guard': self.stu_guard
             }
         }
+
+    @api.depends('suggestion_ids')
+    def _compute_suggestion_count(self):
+            self.suggestion_count =self.env['school.student.suggestion'].search_count(domain=[('student_name', '=', self.stu_name)])
+
+    def action_view_suggestions(self):
+        return {
+            'name': _('Suggestion'),
+            'view_mode': 'tree',
+            'res_model': 'school.student.suggestion',
+            'domain': [('student_name', '=', self.stu_name)],
+            'type': 'ir.actions.act_window',
+            'context': {
+                'default_student_name': self.stu_name,
+                'default_student_guard': self.stu_guard
+            }
+        }
+
+    @api.model
+    def search(self, domain=[], *args, **kwargs):
+        # Add the filter to restrict access to own records
+        if self.env.user.has_group('school.group_school_student'):  # Adjust the group as necessary
+            domain += [('user_id', '=', self.env.user.id)]
+        return super(SchoolStudent, self).search(domain, *args, **kwargs)

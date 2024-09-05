@@ -46,7 +46,7 @@
     </record>
     <!-- Action Definition for Fee Structure -->
     <record id="action_school_fee_structure" model="ir.actions.act_window">
-        <field name="name">Fee Structures</field>
+        <field name="name">Fee Structures/Transactions</field>
         <field name="res_model">school.fee.structure</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_fee_structure_tree"/>

@@ -8,6 +8,7 @@
                 <field name="name"/>
                 <field name="subject" optional="hide"/>
                 <field name="teaching_class"/>
+                <field name="status"/>
             </tree>
         </field>
     </record>
@@ -17,6 +18,10 @@
         <field name="model">school.teacher</field>
         <field name="arch" type="xml">
             <form string="Teacher">
+                <header>
+                    <button name="action_create_teacher" type="object" string="Create Teacher" class="btn-primary"/>
+                    <field name="status" widget="statusbar" statusbar_visible="not_created, created"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="name"/>

@@ -23,3 +23,12 @@ class SchoolTeacher(models.Model):
         ('9', '9'),
         ('10', '10')
     ], string='Teaching Standard', default='7', tracking=True)
+    status = fields.Selection([
+        ('not_created', 'Draft'),
+        ('created', 'Done')
+    ], string='Status', default="not_created", tracking=True)
+
+    def action_create_teacher(self):
+        for record in self:
+            if record.status == 'not_created':
+                record.status = 'created'

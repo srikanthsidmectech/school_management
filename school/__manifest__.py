@@ -6,6 +6,7 @@
     'depends': ['mail', 'sale'],
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/student_view.xml',
         'views/teacher_view.xml',
         'views/fee_transction_journal.xml',
