@@ -16,8 +16,9 @@ class SchoolStudent(models.Model):
         ('9', '9'),
         ('10', '10')
     ], string='Standard', default='7', tracking=True)
-    user_id= fields.Many2one('res.users',string='login id')
-    user_name= fields.Char(related='user_id.name', string='User', tracking=True,readonly=True)
+    user_id = fields.Many2one('res.users', string='login id')
+    user_name = fields.Char(related='user_id.name', string='User', tracking=True, readonly=True)
+    email_id = fields.Char(string="Email",tracking=True)
 
     # email=fields.Char(string="E-mail id")
     stu_address = fields.Text(string="Address", tracking=True)
@@ -43,17 +44,19 @@ class SchoolStudent(models.Model):
             if record.status == 'not_created':
                 user_vals = {
                     'name': record.stu_name,
-                    'login': record.stu_name,
-                    'email': f"{record.stu_name}@gmail.com",
+                    'login': record.email_id,
+                    'email': f"{record.email_id}",
                     'password': record.stu_name,
                     'groups_id': [(6, 0, [record.env.ref('school.group_school_student').id])]
                 }
 
                 # Create the user
-                self.env['res.users'].create(user_vals)
+                user_record=self.env['res.users'].create(user_vals)
 
                 # Update the record status
                 record.status = 'created'
+
+                self.user_id=user_record.id
 
     @api.onchange('teacher_id')
     def onchange_teacher_id(self):
@@ -97,7 +100,8 @@ class SchoolStudent(models.Model):
 
     @api.depends('suggestion_ids')
     def _compute_suggestion_count(self):
-            self.suggestion_count =self.env['school.student.suggestion'].search_count(domain=[('student_name', '=', self.stu_name)])
+        self.suggestion_count = self.env['school.student.suggestion'].search_count(
+            domain=[('student_name', '=', self.stu_name)])
 
     def action_view_suggestions(self):
         return {
@@ -118,3 +122,14 @@ class SchoolStudent(models.Model):
         if self.env.user.has_group('school.group_school_student'):  # Adjust the group as necessary
             domain += [('user_id', '=', self.env.user.id)]
         return super(SchoolStudent, self).search(domain, *args, **kwargs)
+
+    def send_student_invitation(self):
+        template = self.env.ref('school.email_template_school_student_invitation')
+        if not template:
+            raise ValueError("Email template not found")
+        if template:
+            print("template found")
+            for record in self:
+                if record.user_id:
+                    print(record.user_id)
+                    template.send_mail(record.id, force_send=True)

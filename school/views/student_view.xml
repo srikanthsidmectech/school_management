@@ -26,6 +26,7 @@
                 <header>
                     <button name="action_create_student" type="object" string="Create Student" class="btn-primary"/>
                     <button name="action_student_suggestions" type="object" string="Suggest" class="oe_highlight"/>
+                    <button name="send_student_invitation" type="object" string="send by email" class="oe_highlight"/>
                     <field name="status" widget="statusbar" statusbar_visible="not_created, created"/>
                 </header>
                 <sheet>
@@ -43,6 +44,7 @@
                     <group>
                         <field name="stu_name"/>
                         <field name="stu_standard"/>
+                        <field name="email_id"/>
                         <field name="date_of_birth"/>
                         <field name="age"/>
                         <field name="date_of_joining"/>
@@ -62,6 +64,7 @@
                                 <group>
                                     <field name="stu_guard_ph_no"/>
                                     <field name="teaching_staff_ids" widget='many2many_tags'/>
+                                    <field name="user_id"/>
                                     <field name="user_name"/>
                                 </group>
                             </group>

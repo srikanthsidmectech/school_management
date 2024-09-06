@@ -26,10 +26,23 @@
                     <group>
                         <field name="name"/>
                         <field name="subject"/>
-                        <field name="address"/>
-                        <field name="date_of_birth"/>
-                        <field name="teaching_class"/>
+
                     </group>
+                    <notebook>
+                        <page string="Additional Details">
+                            <group>
+                                <group>
+                                    <field name="date_of_birth"/>
+                                    <field name="teaching_class"/>
+                                </group>
+                                <group>
+                                    <field name="user_id"/>
+                                    <field name="address"/>
+                                    <field name="user_name"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>

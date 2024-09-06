@@ -43,5 +43,6 @@
               name="Student Suggestions"
               parent="School_student"
               action="action_student_suggestions"/>
+<!--              groups="school.group_school_teacher"/>-->
 
 </odoo>
