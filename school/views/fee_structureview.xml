@@ -11,9 +11,9 @@
                 <field name="amount"/>
                 <field name="type_of_transaction"/>
                 <field name="fee_type"/>
-                <!--<
+                <field name="tax"/>
                 <field name="date_due"/>
-                <field name="status"/>-->
+                <field name="status"/>
             </tree>
         </field>
     </record>
@@ -35,6 +35,7 @@
                         <field name="amount"/>
                         <field name="fee_type"/>
                         <field name="date_due"/>
+                        <field name="tax" widget='many2many_tags'/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">

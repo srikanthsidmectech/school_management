@@ -47,8 +47,12 @@
                                     <thead>
                                         <tr>
                                             <th>Fee Type</th>
+                                            <th>Type of Transaction</th>
                                             <th>Amount</th>
+                                            <th>Tax</th>
                                             <th>Due Date</th>
+                                            <th>Total Tax</th>
+                                            <th>Total Amount</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -58,11 +62,23 @@
                                                 <td>
                                                     <span t-field="fee.fee_type"/>
                                                 </td>
+                                                <td>
+                                                    <span t-field="fee.type_of_transaction"/>
+                                                </td>
                                                 <td class="text-right">
                                                     <span t-field="fee.amount"/>
                                                 </td>
                                                 <td>
+                                                    <span t-field="fee.tax" t-options="{widget: 'many2many_tags'}"/>
+                                                </td>
+                                                <td>
                                                     <span t-field="fee.date_due"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="fee.total_tax"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="fee.total_amount"/>
                                                 </td>
                                                 <td>
                                                     <span t-field="fee.status"/>
@@ -70,6 +86,30 @@
                                             </tr>
                                         </t>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2" style="text-align: right; font-weight: bold;">--</td>
+                                            <td class="text-right">
+                                                <span t-field="doc.untaxed_amount"/>
+                                            </td>
+                                            <td colspan="2" >
+                                                <span/>
+                                            </td>
+                                              <td class="text-right">
+                                                <span t-field="doc.total_tax"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="doc.total_amount"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" style="text-align: right; font-weight: bold;">Total:</td>
+                                            <td class="text-right">
+                                                <span t-field="doc.total_amount"/>
+                                            </td>
+
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

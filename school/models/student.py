@@ -40,6 +40,10 @@ class SchoolStudent(models.Model):
     suggestion_ids = fields.One2many('school.student.suggestion', 'student_id', string='Suggestions')
     suggestion_count = fields.Integer(string='Number of Suggestions', compute='_compute_suggestion_count')
 
+    total_amount = fields.Float(string='Total Amount', compute='_compute_totals', store=True)
+    total_tax = fields.Float(string='Total Tax Amount', compute='_compute_totals', store=True)
+    untaxed_amount = fields.Float(string='Untaxed Amount', compute='_compute_totals', store=True)
+
     def action_create_student(self):
         for record in self:
             if record.status == 'not_created':
@@ -58,6 +62,21 @@ class SchoolStudent(models.Model):
                 record.status = 'created'
 
                 self.user_id = user_record.id
+
+    @api.depends('fee_structure_ids')
+    def _compute_totals(self):
+        for student in self:
+            total_amount = 0.0
+            total_tax = 0.0
+            untaxed_amount = 0.0
+            for fee in student.fee_structure_ids:
+                total_amount += fee.total_amount
+                total_tax += fee.total_tax
+                untaxed_amount += fee.amount
+
+            student.total_amount = total_amount
+            student.total_tax = total_tax
+            student.untaxed_amount = untaxed_amount
 
     @api.onchange('teacher_id')
     def onchange_teacher_id(self):

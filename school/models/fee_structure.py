@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class SchoolFeeStructure(models.Model):
@@ -17,6 +17,7 @@ class SchoolFeeStructure(models.Model):
         ('sports', 'Sports Fee'),
         ('other', 'Other Fee')
     ], string='Fee Type', tracking=True)
+    tax=fields.Many2many('account.tax',string="Tax")
     amount = fields.Float(string='Amount', default=0.0, tracking=True)
     date_due = fields.Date(string='Due Date',tracking=True)
     status = fields.Selection([
@@ -28,3 +29,21 @@ class SchoolFeeStructure(models.Model):
         for record in self:
             if record.status == 'not_paid':
                 record.status = 'paid'
+
+    @api.depends('amount', 'tax')
+    def _compute_total_amount(self):
+        for record in self:
+
+            total_tax = 0.0
+
+            for tax in record.tax:
+                total_tax += (record.amount * tax.amount / 100)
+            record.total_amount = record.amount + total_tax
+            record.total_tax=total_tax
+
+
+    total_amount = fields.Float(string='Total Amount', compute='_compute_total_amount', store=True)
+    total_tax = fields.Float(string='Total tax amount', compute='_compute_total_amount', store=True)
+
+
+
