@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_student_card">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <h2>Student Card</h2>
+                            <div class="row">
+                                <div class="col-4">
+                                    <strong>Name:</strong>
+                                    <span t-field="doc.stu_name"/>
+                                    <br/>
+                                    <strong>Standard:</strong>
+                                    <span t-field="doc.stu_standard"/>
+                                    <br/>
+                                    <strong>Date of Birth:</strong>
+                                    <span t-field="doc.date_of_birth"/>
+                                    <br/>
+                                    <strong>Age:</strong>
+                                    <span t-field="doc.age"/>
+                                    <br/>
+                                    <strong>Email:</strong>
+                                    <span t-field="doc.email_id"/>
+                                    <br/>
+                                </div>
+                                <div class="col-4">
+                                    <strong>Address:</strong>
+                                    <span t-field="doc.stu_address"/>
+                                    <br/>
+                                    <strong>Guardian:</strong>
+                                    <span t-field="doc.stu_guard"/>
+                                    <br/>
+                                    <strong>Guardian Mobile Number:</strong>
+                                    <span t-field="doc.stu_guard_ph_no"/>
+                                    <br/>
+                                    <strong>Date of Joining:</strong>
+                                    <span t-field="doc.date_of_joining"/>
+                                    <br/>
+                                </div>
+
+                            </div>
+                            <div>
+                                <h3>Fee Structure</h3>
+                                <table class="table table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Fee Type</th>
+                                            <th>Amount</th>
+                                            <th>Due Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.fee_structure_ids" t-as="fee">
+                                            <tr>
+                                                <td>
+                                                    <span t-field="fee.fee_type"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="fee.amount"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="fee.date_due"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="fee.status"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

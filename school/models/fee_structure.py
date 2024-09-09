@@ -18,7 +18,7 @@ class SchoolFeeStructure(models.Model):
         ('other', 'Other Fee')
     ], string='Fee Type', tracking=True)
     amount = fields.Float(string='Amount', default=0.0, tracking=True)
-    date_due = fields.Date(string='Due Date')
+    date_due = fields.Date(string='Due Date',tracking=True)
     status = fields.Selection([
         ('not_paid', 'Unpaid'),
         ('paid', 'Paid')

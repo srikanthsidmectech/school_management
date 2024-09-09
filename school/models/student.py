@@ -11,6 +11,7 @@ class SchoolStudent(models.Model):
 
     stu_name = fields.Char("Name", tracking=True)
     stu_standard = fields.Selection([
+
         ('7', '7'),
         ('8', '8'),
         ('9', '9'),
@@ -18,7 +19,7 @@ class SchoolStudent(models.Model):
     ], string='Standard', default='7', tracking=True)
     user_id = fields.Many2one('res.users', string='login id')
     user_name = fields.Char(related='user_id.name', string='User', tracking=True, readonly=True)
-    email_id = fields.Char(string="Email",tracking=True)
+    email_id = fields.Char(string="Email", tracking=True)
 
     # email=fields.Char(string="E-mail id")
     stu_address = fields.Text(string="Address", tracking=True)
@@ -51,12 +52,12 @@ class SchoolStudent(models.Model):
                 }
 
                 # Create the user
-                user_record=self.env['res.users'].create(user_vals)
+                user_record = self.env['res.users'].create(user_vals)
 
                 # Update the record status
                 record.status = 'created'
 
-                self.user_id=user_record.id
+                self.user_id = user_record.id
 
     @api.onchange('teacher_id')
     def onchange_teacher_id(self):

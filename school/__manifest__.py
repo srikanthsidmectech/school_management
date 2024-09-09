@@ -13,12 +13,14 @@
         'views/fee_transction_journal.xml',
         'views/student_suggestionview.xml',
         'views/fee_structureview.xml',
-        'views/query_view.xml',  # Ensure this file name is correct
+        'views/query_view.xml',
         'views/sale_orderinherit_views.xml',
         'views/sales_invoice_view.xml',
-        'views/home.xml'
+        'views/home.xml',
+        'report/student_card.xml',
+        'report/report.xml'
     ],
-    'license': 'LGPL-3',  # Corrected license name
+    'license': 'LGPL-3',
     'installable': True,
     'autoinstall': True
 }

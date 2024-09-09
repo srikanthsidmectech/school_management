@@ -16,33 +16,38 @@
               name="Student"
               parent="School_student"
               action="action_school_student"
+              groups="school.group_school_student"
     />
 
     <menuitem id="school_teacher"
               name="Teacher"
               parent="School_Academics"
               action="action_school_teacher"
+              groups="school.group_school_teacher"
     />
 
     <menuitem id="school_fee_structure"
               name="Fee Structure"
               parent="School_student"
-              action="action_school_fee_structure"/>
+              action="action_school_fee_structure"
+              groups="school.group_school_management"/>
 
     <menuitem id="school_query"
               name="Admission"
               parent="SRK_School"
-              action="action_school_query"/>
+              action="action_school_query"
+              groups="school.group_school_management"/>
 
     <menuitem id="school_fee_transaction"
               name="Journal"
               parent="School_student"
-              action="action_school_transaction_journal"/>
+              action="action_school_transaction_journal"
+              groups="school.group_school_management"/>
     <!-- Menu Item Definition -->
     <menuitem id="menu_student_suggestions"
               name="Student Suggestions"
               parent="School_student"
-              action="action_student_suggestions"/>
-<!--              groups="school.group_school_teacher"/>-->
+              action="action_student_suggestions"
+              groups="school.group_school_management"/>
 
 </odoo>
