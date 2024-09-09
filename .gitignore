@@ -1,1 +1,3 @@
-**/school/__pycache__/
+/school/__pycache__/
+/school/models/__pycache__/
+/school/wizard/__pycache__/
