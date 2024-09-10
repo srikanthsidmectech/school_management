@@ -10,7 +10,7 @@ class NewStudent(models.Model):
     custom_integer_id = fields.Integer(string="student ID", copy=False, readonly=True, index=True,
                                        default=lambda self: self._get_next_custom_integer_id())
     student_name = fields.Char(string="Name", tracking=True, required=True)
-    student_class = fields.Char(string='Class', tracking=True, required=True)
+    student_class = fields.Integer(string='Class', tracking=True, required=True)
     stu_parent_name = fields.Char(string='Father Name', tracking=True, required=True)
     mobile_number = fields.Char(string='Father Mobile No', tracking=True, required=True)
     status = fields.Selection([

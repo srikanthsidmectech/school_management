@@ -145,11 +145,37 @@ class SchoolStudent(models.Model):
 
     def send_student_invitation(self):
         template = self.env.ref('school.email_template_school_student_invitation')
-        if not template:
-            raise ValueError("Email template not found")
-        if template:
-            print("template found")
-            for record in self:
-                if record.user_id:
-                    print(record.user_id)
-                    template.send_mail(record.id, force_send=True)
+        for record in self:
+            template.send_mail(record.id, force_send=True)
+
+    def update_FeeState(self):
+        print("Updates are working")
+        today = datetime.today().date()
+        print(f"Today's date: {today}")
+        # Load the email template
+        template = self.env.ref('school.email_template_fee_due_reminder')
+        # Query for students with due fees
+        students_with_due_fees = self.env['school.student'].search([
+            ('fee_structure_ids.date_due', '<=', today)
+        ])
+        if not students_with_due_fees:
+            print("No students with due fees found")
+        # Iterate through students with due fees
+        for student in students_with_due_fees:
+            print(f"Processing student: {student.stu_name}")
+            # Filter fees where the due date is today or earlier
+            fees_due = []
+            for fee in student.fee_structure_ids:
+                if fee.date_due:
+                    # Compare the fee's due date with today's date
+                    if fee.date_due <= today:
+                        fees_due.append(fee)
+            # If there are due fees, send an email
+            if fees_due:
+                try:
+                    template.send_mail(student.id, force_send=True)
+                    print(f"Email sent to {student.stu_name} (ID: {student.email_id})")
+                except Exception as e:
+                    print(f"Failed to send email to {student.stu_name} (ID: {student.email_id}): {e}")
+            else:
+                print(f"No due fees for student {student.stu_name} (ID: {student.email_id})")

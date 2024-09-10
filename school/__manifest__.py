@@ -7,6 +7,8 @@
     'data': [
         'security/ir.model.access.csv',
         'data/email.xml',
+        'data/fee_due_date_activity.xml',
+        'data/email_template_fee_due_reminder.xml',
         'security/security.xml',
         'views/student_view.xml',
         'views/teacher_view.xml',

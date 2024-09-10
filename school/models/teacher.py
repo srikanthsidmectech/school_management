@@ -44,10 +44,14 @@ class SchoolTeacher(models.Model):
                 }
 
                 # Create the user
-                self.env['res.users'].create(user_vals)
+                user_record=self.env['res.users'].create(user_vals)
 
                 # Update the record status
                 record.status = 'created'
+
+                self.user_id = user_record.id
+
+
 
     @api.model
     def create(self, vals):
