@@ -44,6 +44,9 @@ class SchoolStudent(models.Model):
     total_tax = fields.Float(string='Total Tax Amount', compute='_compute_totals', store=True)
     untaxed_amount = fields.Float(string='Untaxed Amount', compute='_compute_totals', store=True)
 
+
+    invoice_count=fields.Integer(string="invoice count",compute="_compute_invoice_count")
+
     def action_create_student(self):
         for record in self:
             if record.status == 'not_created':
@@ -117,6 +120,54 @@ class SchoolStudent(models.Model):
                 'default_student_guard': self.stu_guard
             }
         }
+
+
+    def _compute_invoice_count(self):
+        self.invoice_count = self.env['account.move'].search_count(
+            domain=[('partner_id', '=', self.user_id.partner_id.id)])
+
+    def action_student_invoices(self):
+        for record in self:
+            partner_id = record.user_id.partner_id.id
+
+            # Search for invoices related to the student's partner
+            student_invoices = self.env['account.move'].search([
+                ('partner_id', '=', partner_id),
+                ('move_type', '=', 'out_invoice')
+            ])
+
+            if student_invoices:
+                invoice_lines = [(0, 0, {
+                    'invoice_date': inv.invoice_date,
+                    'payment_ref': inv.payment_reference,
+                    'due_date': inv.invoice_date_due,
+                }) for inv in student_invoices]
+                count=len(invoice_lines)
+                print(count)
+
+
+                return {
+                    'name': _('Invoices'),
+                    'view_mode': 'tree,form',
+                    'res_model': 'account.move',
+                    'domain': [('partner_id','=',partner_id)],
+                    'type': 'ir.actions.act_window',
+                    'context': {
+                        'default_student_name': record.stu_name,
+                        'default_student_invoices': invoice_lines,
+                        'partner_id': partner_id
+                    }
+                }
+            else:
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'title': _('No Invoices Found'),
+                        'message': _('No invoices were found for the selected student.'),
+                        'type': 'warning',
+                    }
+                }
 
     @api.depends('suggestion_ids')
     def _compute_suggestion_count(self):

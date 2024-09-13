@@ -8,9 +8,10 @@
 
             <tree string="Fee Structures">
                 <!--<field name="student_name"/>-->
-                <field name="amount"/>
-                <field name="type_of_transaction"/>
+
                 <field name="fee_type"/>
+                 <field name="amount"/>
+                <field name="type_of_transaction"/>
                 <field name="tax"/>
                 <field name="date_due"/>
                 <field name="status"/>
@@ -31,11 +32,12 @@
                     <group>
                         <!--<field name="student_id"/>
                         <field name="student_name" readonly="1"/>-->
-                        <field name="type_of_transaction"/>
-                        <field name="amount"/>
                         <field name="fee_type"/>
+                        <field name="amount"/>
                         <field name="date_due"/>
                         <field name="tax" widget='many2many_tags'/>
+                        <field name="type_of_transaction"/>
+
                     </group>
                 </sheet>
                 <div class="oe_chatter">

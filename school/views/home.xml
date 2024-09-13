@@ -3,14 +3,10 @@
     <menuitem id="SRK_School"
               name="SRK SCHOOL"
     />
-    <menuitem id="School_Academics"
-              name="Academics"
-              parent="SRK_School"
-    />
 
     <menuitem id="School_student"
               name="Student"
-              parent="School_Academics"
+              parent="SRK_School"
     />
     <menuitem id="School_student_"
               name="Student"
@@ -21,7 +17,7 @@
 
     <menuitem id="school_teacher"
               name="Teacher"
-              parent="School_Academics"
+              parent="SRK_School"
               action="action_school_teacher"
               groups="school.group_school_teacher"
     />
@@ -40,7 +36,7 @@
 
     <menuitem id="school_fee_transaction"
               name="Journal"
-              parent="School_student"
+              parent="SRK_School"
               action="action_school_transaction_journal"
               groups="school.group_school_management"/>
     <!-- Menu Item Definition -->

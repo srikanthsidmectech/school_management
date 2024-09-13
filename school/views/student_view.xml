@@ -31,7 +31,16 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_suggestions"
+                        <button name="action_student_invoices"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o">
+                            <div class="o_stat_info">
+                                <field name="invoice_count" class="o_stat_value"/>
+                                <span class="o_stat_text">Invoices</span>
+                            </div>
+                        </button>
+                         <button name="action_view_suggestions"
                                 type="object"
                                 class="oe_stat_button"
                                 icon="fa-star">
@@ -60,6 +69,8 @@
                                     <field name="date_due"/>
                                     <field name="total_tax"/>
                                     <field name="total_amount"/>
+                                    <field name="status"/>
+                                    <button name="action_button_method" type="object" string="Pay" class="btn-primary"/>
                                 </tree>
                                 <form>
                                     <group>

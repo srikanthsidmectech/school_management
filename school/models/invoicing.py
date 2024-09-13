@@ -7,6 +7,10 @@ class AccountMove(models.Model):
     customer_name = fields.Char(string='Parent Name')
     customer_ph_no = fields.Char(string='parent mobile No')
 
+    student_id=fields.Many2one('school.student',string="student")
+
+
+
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
