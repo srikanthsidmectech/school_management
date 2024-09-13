@@ -5,3 +5,4 @@ from . import query
 from . import sale_orderinherit
 from . import invoicing
 from . import journal
+from . import product_brand

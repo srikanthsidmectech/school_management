@@ -8,3 +8,10 @@ class SaleOrder(models.Model):
     bank_Account_number = fields.Char(string="Bank Account Number")
     bank_Branch = fields.Char(string="Bank Branch Name")
     bank_Ifsc_code = fields.Char(string="Bank Ifsc Code")
+
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    brand_id = fields.Many2one('product.brand', string='Brand')

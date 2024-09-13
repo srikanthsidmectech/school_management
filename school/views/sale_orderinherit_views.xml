@@ -17,6 +17,9 @@
                     <field name="bank_Ifsc_code"/>
                 </group>
             </xpath>
+            <xpath expr="//tree//field[@name='price_unit']" position="after">
+                <field name="brand_id"/>
+            </xpath>
         </field>
     </record>
 </odoo>

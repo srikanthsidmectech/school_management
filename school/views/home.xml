@@ -46,4 +46,11 @@
               action="action_student_suggestions"
               groups="school.group_school_management"/>
 
+    <menuitem id="menu_product_brand"
+              name="Product Brand"
+              parent="SRK_School"
+              action="action_product_brand"
+              groups="school.group_school_management"/>
+
+
 </odoo>

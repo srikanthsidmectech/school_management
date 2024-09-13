@@ -1,0 +1,13 @@
+<odoo>
+    <!-- Inherit the product.template form view to add the new field -->
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook//field[@name='categ_id']" position="after">
+                <field name="brand_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -5,3 +5,4 @@ access_school_transaction_journal,access_school_transaction_journal,model_school
 access_school_fee_structure,access_school_fee_structure,model_school_fee_structure,,1,1,1,1
 access_school_query,access_school_query,model_school_query,,1,1,1,1
 access_student_suggestions,access_student_suggestions,model_school_student_suggestion,,1,1,1,1
+access_product_brand,access_product_brand,model_product_brand,,1,1,1,1

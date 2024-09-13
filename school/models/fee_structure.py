@@ -52,21 +52,21 @@ class SchoolFeeStructure(models.Model):
         print("Button action triggered")
         for record in self:
             # Verify the student record
-            if record.status == 'not_paid':
-                record.status = 'paid'
-            if record.status == 'paid':
-                record.status = 'not_paid'
-            if not record.student_id:
-                print(f"No student found for fee structure {record.id}")
-                continue
-
-            if not record.student_id.user_id:
-                print(f"No user found for student {record.student_id.id}")
-                continue
-
-            if not record.student_id.user_id.partner_id:
-                print(f"No partner found for user {record.student_id.user_id.id}")
-                raise ValueError("No partner found for student")
+            # if record.status == 'not_paid':
+            #     record.status = 'paid'
+            # if record.status == 'paid':
+            #     record.status = 'not_paid'
+            # if not record.student_id:
+            #     print(f"No student found for fee structure {record.id}")
+            #     continue
+            #
+            # if not record.student_id.user_id:
+            #     print(f"No user found for student {record.student_id.id}")
+            #     continue
+            #
+            # if not record.student_id.user_id.partner_id:
+            #     print(f"No partner found for user {record.student_id.user_id.id}")
+            #     raise ValueError("No partner found for student")
 
             partner_id = record.student_id.user_id.partner_id.id
             print(f"Partner ID: {partner_id}")
@@ -107,7 +107,7 @@ class SchoolFeeStructure(models.Model):
                 'view_mode': 'form',
             }
 
-    @api.depends('student_id')
+    # @api.depends('student_id')
     def _compute_state_payment(self):
         for record in self:
             if record.invoice_id:
