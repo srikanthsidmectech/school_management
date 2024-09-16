@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="invoice_report_view" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@name='address_same_as_shipping']" position="inside">
+                <div class="mt-4" name="address_same_as_ship">
+                    <table style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Bank Name:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.bank_Name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Bank Account Number:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.bank_Account_number"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Bank Branch:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.bank_Branch"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Bank IFSC Code:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.bank_Ifsc_code"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

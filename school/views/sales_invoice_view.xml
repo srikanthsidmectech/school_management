@@ -13,6 +13,13 @@
                    position="after">
                 <field name="fee_structure_ids"/>
             </xpath>
+            <xpath expr="//notebook/page[@name='other_info']/group/group[@name='accounting_info_group']/field[@name='company_id']"
+                   position="after">
+                <field name="bank_Name"/>
+                 <field name="bank_Account_number"/>
+                 <field name="bank_Branch"/>
+                 <field name="bank_Ifsc_code"/>
+            </xpath>
 
         </field>
     </record>

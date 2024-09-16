@@ -25,6 +25,7 @@
         'report/report.xml',
         'report/sales_report_view.xml',
         'report/sales_report.xml',
+        'report/invoicing_report.xml'
     ],
     'license': 'LGPL-3',
     'installable': True,
