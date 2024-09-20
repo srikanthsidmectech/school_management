@@ -2,10 +2,17 @@
 <odoo>
     <data>
         <template id="report_delivery_header_footer">
+            <!--            <t t-set="serial_num" t-value="0"/>-->
+            <!--            <t t-set="serial_num" t-value="serial_num + 1"/>-->
             <t t-foreach="docs" t-as="doc">
                 <div class="header" style="background-color: #f4f4f4; padding: 20px; border-bottom: 2px solid #18133B;">
                     <div class="text-left">
                         <h2 style="color: #03421F; font-size: 24px; margin: 0;">
+                            <img t-if="doc.company_id.logo"
+                                 t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"
+                                 alt="Company Logo"
+                            style="width: 40px; height:auto; border-radius:10px;"/>
+
                             <span t-field="doc.company_id.name"/>
                         </h2>
                         <span t-esc="doc.company_id.partner_id.email" style="color: #808080; font-size: 14px;"/>
@@ -14,12 +21,28 @@
                 <div class="article o_report_layout_standard" style="padding: 20px;">
                     <t t-out="0"/>
                 </div>
-                <div class="footer o_standard_footer" style="background-color: #f4f4f4; padding: 10px; border-top: 2px solid #18133B;">
+                <div class="footer o_standard_footer"
+                     style="background-color: #f4f4f4; padding: 10px; border-top: 2px solid #18133B;">
                     <div style="display: flex; justify-content: space-between; width: 100%; font-size: 14px; color: #808080;">
-                        <span t-esc="doc.company_id.name"/> ,
-                        <span t-esc="doc.company_id.street"/>,
-                        <span t-esc="doc.company_id.state_id.name"/> ,
+
+                        <span t-esc="doc.company_id.street2"/>,
+                        <span t-esc="doc.company_id.city"/>,
+                        <span t-esc="doc.company_id.name"/>,
+                        <span t-esc="doc.company_id.street"/>
+                        ,
+                        <span t-esc="doc.company_id.zip"/>,
+                        <span t-esc="doc.company_id.state_id.name"/>,
                         <span t-esc="doc.company_id.country_id.name"/>
+                    </div>
+                    <span t-esc="doc.company_id.website"/>
+                    <div style="text-align: center; font-size: 12px; color: #808080; margin-top: 5px;">
+                        Page
+                        <!--                        <t t-esc="serial_num"/>-->
+                        <p style="text-align: center; font-size: 16px; margin-top: 10px;">
+                            <span class="page"/>
+                            <!--                            of-->
+                            <!--                            <span class="topage"/>-->
+                        </p>
                     </div>
                 </div>
             </t>
@@ -38,16 +61,20 @@
                                 Inv No
                             </span>
                             <div style="margin-bottom: 40px;">
-                                <table style="width: 60%; border-collapse: collapse;">
+                                <table style="width: 60%; border-collapse: collapse;" class="table table-borderless">
                                     <tbody>
                                         <tr>
-                                            <td><strong style="color:#116135; font-size: 18px;">TO:</strong></td>
+                                            <td>
+                                                <strong style="color:#116135; font-size: 18px;">TO:</strong>
+                                            </td>
                                             <td style="color:#808080; font-size: 16px;">
                                                 <span t-field="doc.partner_id"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: #116135; font-size: 18px;">INVOICE DATE:</strong></td>
+                                            <td>
+                                                <strong style="color: #116135; font-size: 18px;">INVOICE DATE:</strong>
+                                            </td>
                                             <td style="color:#808080; font-size: 16px;">
                                                 <span t-esc="doc.invoice_date.strftime('%d %B, %Y')"/>
                                             </td>
@@ -86,8 +113,8 @@
                                 </table>
                             </div>
                             <div style="display: flex; justify-content: flex-end; width: 100%; font-size: 18px;">
-                                <table style="width: auto; margin-left: auto; border-top: 2px solid black;">
-                                    <tbody>
+                                <table style="width: auto; margin-left: auto; border-collapse: collapse;" class="table table-borderless">
+                                    <tbody style="border-top: 2px solid black; ">
                                         <tr style="border-top: 2px solid #18133B; color:#808080;">
                                             <td>
                                                 <span style="margin-left: 200px">Sub Total</span>
@@ -96,13 +123,16 @@
                                                 <span t-field="doc.amount_untaxed" style="margin-left: 15px"/>
                                             </td>
                                         </tr>
-                                        <t t-foreach="doc.tax_totals['groups_by_subtotal']['Untaxed Amount']" t-as="tax_group">
+                                        <t t-foreach="doc.tax_totals['groups_by_subtotal']['Untaxed Amount']"
+                                           t-as="tax_group">
                                             <tr style="color:#808080;">
                                                 <td>
-                                                    <span t-esc="tax_group['tax_group_name']" style="margin-left: 200px"/>
+                                                    <span t-esc="tax_group['tax_group_name']"
+                                                          style="margin-left: 200px"/>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="tax_group['formatted_tax_group_amount']" style="margin-left: 15px"/>
+                                                    <span t-esc="tax_group['formatted_tax_group_amount']"
+                                                          style="margin-left: 15px"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -111,32 +141,53 @@
                                                 <span style="margin-left: 200px; font-weight: bold;">Total</span>
                                             </td>
                                             <td>
-                                                <span t-field="doc.amount_total" style="margin-left: 15px; font-weight: bold; font-size: 20px;">Total</span>
+                                                <span t-field="doc.amount_total"
+                                                      style="margin-left: 15px; font-weight: bold; font-size: 20px;">
+                                                    Total
+                                                </span>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
 
-                            <div class="col-6" style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 40px;">
+                            <div class="col-6"
+                                 style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 40px;">
                                 <h2 style="font-weight: bold; line-height: 1.5; color: #03421F;">BANK DETAILS</h2>
-                                <table style="width: auto; margin-top: 10px; text-align: left;">
+                                <table style="width: auto; margin-top: 10px; text-align: left; border-collapse: collapse;"
+                                       class="table table-borderless">
                                     <tbody>
                                         <tr style="color:#808080;">
-                                            <td style="padding: 10px;"><strong>Bank:</strong></td>
-                                            <td style="padding: 10px;"><span t-field="doc.bank_Name"/></td>
+                                            <td style="padding: 10px;">
+                                                <strong>Bank:</strong>
+                                            </td>
+                                            <td style="padding: 10px;">
+                                                <span t-field="doc.bank_Name"/>
+                                            </td>
                                         </tr>
                                         <tr style="color:#808080;">
-                                            <td style="padding: 10px;"><strong>Account No:</strong></td>
-                                            <td style="padding: 10px;"><span t-field="doc.bank_Account_number"/></td>
+                                            <td style="padding: 10px;">
+                                                <strong>Account No:</strong>
+                                            </td>
+                                            <td style="padding: 10px;">
+                                                <span t-field="doc.bank_Account_number"/>
+                                            </td>
                                         </tr>
                                         <tr style="color:#808080;">
-                                            <td style="padding: 10px;"><strong>Branch Name:</strong></td>
-                                            <td style="padding: 10px;"><span t-field="doc.bank_Branch"/></td>
+                                            <td style="padding: 10px;">
+                                                <strong>Branch Name:</strong>
+                                            </td>
+                                            <td style="padding: 10px;">
+                                                <span t-field="doc.bank_Branch"/>
+                                            </td>
                                         </tr>
                                         <tr style="color:#808080;">
-                                            <td style="padding: 10px;"><strong>IFSC No:</strong></td>
-                                            <td style="padding: 10px;"><span t-field="doc.bank_Ifsc_code"/></td>
+                                            <td style="padding: 10px;">
+                                                <strong>IFSC No:</strong>
+                                            </td>
+                                            <td style="padding: 10px;">
+                                                <span t-field="doc.bank_Ifsc_code"/>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -149,18 +200,27 @@
                                     GENERAL TERMS AND CONDITIONS
                                 </p>
                                 <div style="margin-bottom: 30px; font-size: 16px; color:#808080;">
-                                    <p style="font-family: 'Arial', sans-serif;">All prices are quoted in INR without delivery charge.</p>
-                                    <p style="color:#808080;">Prices quoted may vary depending on the market charges without any prior notice.</p>
+                                    <p style="font-family: 'Arial', sans-serif;">All prices are quoted in INR without
+                                        delivery charge.
+                                    </p>
+                                    <p style="color:#808080;">Prices quoted may vary depending on the market charges
+                                        without any prior notice.
+                                    </p>
                                     <span style="color: #808080; padding: 10px; font-size: 18px;">
-                                        Validity of offer: <span t-field="doc.invoice_payment_term_id.name"/> from the day of offer.
+                                        Validity of offer:
+                                        <span t-field="doc.invoice_payment_term_id.name"/>
+                                        from the day of offer.
                                     </span>
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: center; width: 100%;">
-                                <table style="width: 80%; border-collapse: collapse; text-align: center; margin: auto; border: 1px solid black; color:#808080;">
+                                <table style="width: 80%; border-collapse: collapse; text-align: center; margin: auto; border: 1px solid black; color:#808080;"
+                                       class="table table-bordered">
                                     <tbody style="color:#808080;">
                                         <tr style="color:#808080;">
-                                            <td style="border: 1px solid black; padding: 10px;"><span t-field="doc.company_id.name"/></td>
+                                            <td style="border: 1px solid black; padding: 10px;">
+                                                <span t-field="doc.company_id.name"/>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td style="padding: 5px ">
