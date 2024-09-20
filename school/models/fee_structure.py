@@ -5,7 +5,7 @@ class SchoolFeeStructure(models.Model):
     _name = "school.fee.structure"
     _description = "Fee Structure"
     _inherit = ["mail.thread"]
-    _rec_name = 'fee_type'
+    _rec_name = 'product_ids'
 
     student_id = fields.Many2one('school.student', string='Student', tracking=True)
     # student_name = fields.Char(related='student_id.stu_name', string='Student Name', readonly=True,tracking=True)
@@ -13,12 +13,14 @@ class SchoolFeeStructure(models.Model):
 
     product_ids = fields.Many2one("product.template", string="product")
 
-    fee_type = fields.Selection([
-        ('tuition', 'Tuition Fee'),
-        ('lab', 'Lab Fee'),
-        ('sports', 'Sports Fee'),
-        ('other', 'Other Fee')
-    ], string='Fee Type', tracking=True)
+    fee_name=fields.Char(string="Name")
+
+    # fee_type = fields.Selection([
+    #     ('tuition', 'Tuition Fee'),
+    #     ('lab', 'Lab Fee'),
+    #     ('sports', 'Sports Fee'),
+    #     ('other', 'Other Fee')
+    # ], string='Fee Type')
     tax = fields.Many2many('account.tax', string="Tax")
     amount = fields.Float(string='Amount', default=0.0, tracking=True)
     date_due = fields.Date(string='Due Date', tracking=True)
@@ -91,7 +93,7 @@ class SchoolFeeStructure(models.Model):
                     'invoice_line_ids': [(0, 0, {
                         'product_id': record.product_ids.id,
                         'fee_structure_ids': record.id,
-                        'name': record.fee_type,
+                        'name': record.product_ids.name,
                         'account_id': partner_id,  # Example account, typically should be a valid account ID
                         'quantity': 1,
                         'price_unit': record.amount,

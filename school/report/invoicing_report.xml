@@ -140,7 +140,7 @@
                 <t t-esc="serial_num"/>
             </td>
             <td name="td_product_id">
-                <span t-field="line.product_id.name">Sofa</span>
+                <span t-field="line.product_id.name"> </span>
             </td>
         </xpath>
         <xpath expr="//div[@id='right-elements']//table[@class='table table-sm table-borderless avoid-page-break-inside']"

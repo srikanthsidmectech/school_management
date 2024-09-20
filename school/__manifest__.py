@@ -17,7 +17,7 @@
         'views/fee_structureview.xml',
         'views/query_view.xml',
         'views/sale_orderinherit_views.xml',
-        'views/sales_invoice_view.xml',
+        'views/__invoicing_project__.xml',
         'views/product_brand_view.xml',
         'views/product_inherit.xml',
         'views/home.xml',
@@ -25,6 +25,8 @@
         'report/report.xml',
         'report/sales_report_view.xml',
         'report/sales_report.xml',
+        'report/invoicing__project__report.xml',
+        'report/invoicing__report_data.xml',
         'report/invoicing_report.xml'
     ],
     'license': 'LGPL-3',

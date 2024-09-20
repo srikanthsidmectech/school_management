@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!--        <template id="internal_layout_inherit" inherit_id="web.internal_layout" primary="True">-->
+        <!--            <xpath expr="//div[@class='header']/div[@class='row']" position="replace">-->
+        <!--                <h1>Name</h1>-->
+        <!--            </xpath>-->
+        <!--        </template>-->
+        <template id="report_delivery_header_footer">
+            <t t-foreach="docs" t-as="doc">
+                <div class="header">
+                    <div class="text-left">
+                        <span t-field="doc.company_id.name"/>
+                        <span t-esc="doc.company_id.partner_id.email"/>
+                    </div>
+                </div>
+                <div class="article o_report_layout_standard">
+                    <t t-out="0"/>
+                </div>
+                <div class="footer o_standard_footer">
+                    <div style="display: flex; width: 100%">
+                        <span style="" t-esc="doc.company_id.name"/> ,<!-- Company Name -->
+                        <span style="" t-esc="doc.company_id.street"/>, <!-- Company Street -->
+                        <span t-esc="doc.company_id.state_id.name"/> ,<!-- Company Email -->
+                        <span t-esc="doc.company_id.country_id.name"/> <!-- Company Email -->
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_invoice">
+            <t t-call="web.html_container">
+                <t t-call="school.report_delivery_header_footer">
+                    <t t-foreach="docs" t-as="doc">
+                        <!--                        <div style="padding: 10px;">-->
+                        <!--                            <table style="width: 100%; border-collapse: collapse;">-->
+                        <!--                                <tr>-->
+                        <!--                                    <td t-esc="doc.company_id.name"/> &lt;!&ndash; Company Name &ndash;&gt;-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td t-esc="doc.company_id.street"/> &lt;!&ndash; Company Street &ndash;&gt;-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td t-esc="doc.company_id.partner_id.email"/> &lt;!&ndash; Company Email &ndash;&gt;-->
+                        <!--                                </tr>-->
+                        <!--                            </table>-->
+                        <!--                        </div>-->
+                        <div class="page">
+                            <!-- header -->
+
+                            <!--                                    <span style="font-weight: bold;">Currency:</span>-->
+                            <!--                                    <span t-esc="doc.currency_id.name"/> &lt;!&ndash; Currency Name &ndash;&gt;-->
+                            <h2 style="text-align: right; color: #03421F; font-weight: bold ; line-height: 1.5; font-size: 30px;">
+                                QUOTATION
+                            </h2>
+                            <span t-esc="doc.payment_reference"
+                                  style="display: block; text-align: right; color: #D3D3D3 ; font-weight: 600; line-height: 1.5; font-size: 40px; margin-bottom: 40px;">
+                                Inv No
+                            </span>
+                            <div style="margin-bottom: 40px;">
+                                <table style="width:60% ">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <strong style="color:#116135 ">TO:</strong>
+                                            </td>
+                                            <td style="font-family: 'monospace'; color:#808080; ">
+                                                <span t-field="doc.partner_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong style="color: #116135 ">INVOICE DATE:</strong>
+                                            </td>
+                                            <td style="font-family: 'monospace'; color:#808080; ">
+                                                <span t-esc="doc.invoice_date.strftime('%d %B,%Y')">Invoice
+                                                    Date
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-bottom: 80px;">
+                                <table class="table table-bordered"
+                                       style="width:100%; border-collapse: collapse;">
+                                    <thead style="background-color: #18133B; color: white; border: 1px solid black;">
+                                        <tr>
+                                            <th style="border: 1px solid black;">DESCRIPTION</th>
+                                            <th style="border: 1px solid black;">UNIT PRICE</th>
+                                            <th style="border: 1px solid black;">QTY</th>
+                                            <th style="border: 1px solid black;">AMOUNT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.invoice_line_ids" t-as="product">
+                                            <tr style="color:#808080; ">
+                                                <td style="border-bottom: 1px solid black; text-align: center;">
+                                                    <span t-esc="product.name"/>
+                                                </td>
+                                                <td style="border-bottom: 1px solid black; text-align: center;">
+                                                    <span t-esc="product.price_unit"/>
+                                                </td>
+                                                <td style="border-bottom: 1px solid black; text-align: center;">
+                                                    <span t-esc="product.quantity"/>
+                                                </td>
+                                                <td style="border-bottom: 1px solid black; text-align: center;">
+                                                    <span t-esc="product.price_total"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="display: flex; justify-content: flex-end; width: 100%; font-size: 25px;">
+                                <table style="width: auto; margin-left: auto; table table-borderless border-top: 2px solid black;">
+                                    <tbody>
+                                        <tr style="border-top: 2px solid #18133B; color:#808080;">
+                                            <td>
+                                                <span style="margin-left: 200px"></span>
+
+                                            </td>
+                                            <td>
+                                                <span>Sub Total</span>
+                                            </td>
+                                            <td>
+                                                <span t-esc="doc.amount_untaxed" style="margin-left: 15px"/>
+                                            </td>
+                                        </tr>
+                                        <!-- Loop through tax totals if it's a dictionary -->
+                                        <t t-foreach="doc.tax_totals['groups_by_subtotal']['Untaxed Amount']"
+                                           t-as="tax_group">
+                                            <tr style="color:#808080; ">
+                                                <td>
+                                                    <span style="margin-left: 200px"></span>
+
+                                                </td>
+                                                <td>
+                                                    <span t-esc="tax_group['tax_group_name']"
+                                                    />   <!-- Tax Group Name -->
+                                                </td>
+                                                <td>
+                                                    <span t-esc="tax_group['formatted_tax_group_amount']"
+                                                          style="margin-left: 15px"/> <!-- Tax Amount -->
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <tr style="border-top: 1px solid #00008B;">
+                                            <td>
+                                                <span style="margin-left: 200px"></span>
+
+                                            </td>
+                                            <td>
+                                                <span style="">Total</span>
+                                            </td>
+                                            <td>
+                                                <span t-esc="doc.amount_total" style="margin-left: 15px"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-6"
+                                 style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                                <h2 style="font-weight: bold; line-height: 1.5; color: #03421F;">BANK DETAILS
+                                </h2>
+                                <table style="width: auto; margin-top: 10px; text-align: left;">
+                                    <tbody>
+                                        <tr style="color:#808080; ">
+                                            <td style="padding: 10px;">
+                                                <strong>Bank:</strong>
+                                            </td>
+                                            <td style="padding: 10px;">
+                                                <span t-field="doc.bank_Name"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="color:#808080; ">
+                                            <td style="padding: 10px;">
+                                                <strong>Account No:</strong>
+                                            </td>
+                                            <td style="padding: 10px;">
+                                                <span t-field="doc.bank_Account_number"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="color:#808080; ">
+                                            <td style="padding: 10px;">
+                                                <strong>Branch Name:</strong>
+                                            </td>
+                                            <td style="padding: 10px;">
+                                                <span t-field="doc.bank_Branch"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px; color:#808080; ">
+                                                <strong>IFSC No:</strong>
+                                            </td>
+                                            <td style="padding: 10px;">
+                                                <span t-field="doc.bank_Ifsc_code"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="page-break-before: always;"></div>
+                        <div class="page2">
+                            <div style="text-align: center;margin-top: 30px;">
+                                <p style="font-family:'monospace'; color:#03421F; font-weight: bold; font-size: 25px;">
+                                    GENERAL TERMS AND CONDITIONS
+                                </p>
+                                <div style="margin-bottom: 30px; font-size: 15px; color:#808080; ">
+                                    <p style="font-family: 'Arial', sans-serif;">All prices are quoted in INR
+                                        without
+                                        delivery charge
+                                    </p>
+                                    <p style="color:#808080; ">prices quoted may vary depending on the market
+                                        charges
+                                        without any prior notice
+                                    </p>
+                                    <span style=" color: #808080; padding: 10px; font-size: 20px;">Validity of
+                                        offer :
+                                        <span t-field="doc.invoice_payment_term_id.name"/>
+                                        from the day of offer
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; width: 100%;">
+                                <table style="width: 80%; border-collapse: collapse; text-align: center; margin: auto; border: 1px solid black;">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: 5px ">
+                                                <p>Prepared by:
+                                                    <span style="margin-left: 10px;"
+                                                          t-esc="doc.invoice_user_id.name">
+                                                        Administration
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 5px; border-top: 1px solid black;">
+                                                <p>Mobile:-
+                                                    <span t-esc="doc.invoice_user_id.mobile"
+                                                          style="margin-left: 10px;">
+                                                        mobile
+                                                        Number
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 5px; border-top: 1px solid black;">
+                                                <p>This quotation is issued electronically and hence no physical
+                                                    signature
+                                                    or
+                                                    stamp is required
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 5px; border-top: 1px solid black;">
+                                                <p>THANK YOU</p>
+                                                <p>FOR YOUR BUSINESS</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+            <!--            </t>-->
+        </template>
+    </data>
+</odoo>
