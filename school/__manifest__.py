@@ -3,7 +3,7 @@
     'category': 'management',
     'version': '17.0.0.2',
     'author': 'SREEKANTH',
-    'depends': ['mail', 'sale'],
+    'depends': ['mail', 'sale', 'report_xlsx'],
     'data': [
         'security/ir.model.access.csv',
         'data/email.xml',
@@ -31,6 +31,6 @@
     ],
     'license': 'LGPL-3',
     'installable': True,
-    'autoinstall': True
+    'autoinstall': True,
 
 }

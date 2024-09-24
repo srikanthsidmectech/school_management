@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-<!--    <record id="paperformat_invoice" model="report.paperformat">-->
-<!--        <field name="name"> Invoice Page Format </field>-->
-<!--        <field name="default">True</field>-->
-<!--        <field name="page_width">210</field>-->
-<!--        <field name="page_height">297</field>-->
-<!--        <field name="margin_top">15</field>-->
-<!--        <field name="margin_bottom">15</field>-->
-<!--        <field name="margin_left">8</field>-->
-<!--        <field name="margin_right">8</field>-->
-<!--        <field name="dpi">96</field>-->
-<!--        <field name="orientation">Portrait</field>-->
-<!--        <field name="header_spacing">0</field>-->
+    <record id="paper_format_invoice" model="report.paperformat">
+        <field name="name"> Invoice Paper Format </field>
+        <field name="default">True</field>
+        <field name="page_width">210</field>
+        <field name="page_height">297</field>
+        <field name="margin_top">50</field>
+        <field name="margin_bottom">40</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="dpi">96</field>
+        <field name="orientation">Portrait</field>
+        <field name="header_spacing">50</field>
 
-<!--    </record>-->
+    </record>
 
 
     <record id="action_report_invoice" model="ir.actions.report">
@@ -25,6 +25,9 @@
         <field name="report_file">school.report_invoice</field>
         <field name="binding_model_id" ref="model_account_move"/>
         <field name="binding_type">report</field>
-<!--        <field name="paperformat_id" ref="school.paperformat_invoice"/>-->
+        <field name="paperformat_id" ref="school.paper_format_invoice"/>
+        <field name="print_report_name">
+            (object.state == 'draft' or object.state == 'sent') and 'Quotation - ' + object.name or 'invoice/' + object.name
+        </field>
     </record>
 </odoo>

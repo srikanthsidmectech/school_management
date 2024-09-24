@@ -2,50 +2,49 @@
 <odoo>
     <data>
         <template id="report_delivery_header_footer">
-            <!--            <t t-set="serial_num" t-value="0"/>-->
-            <!--            <t t-set="serial_num" t-value="serial_num + 1"/>-->
-            <t t-foreach="docs" t-as="doc">
-                <div class="header" style="background-color: #f4f4f4; padding: 20px; border-bottom: 2px solid #18133B;">
-                    <div class="text-left">
-                        <h2 style="color: #03421F; font-size: 24px; margin: 0;">
-                            <img t-if="doc.company_id.logo"
-                                 t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"
-                                 alt="Company Logo"
-                            style="width: 40px; height:auto; border-radius:10px;"/>
-
-                            <span t-field="doc.company_id.name"/>
-                        </h2>
-                        <span t-esc="doc.company_id.partner_id.email" style="color: #808080; font-size: 14px;"/>
-                    </div>
+            <div class="header">
+                <img src='/school/static/src/img/header-image.jpg' style="width: 100%; height:260px"/>
+            </div>
+            <div class="article o_report_layout_standard" style="margin: 0px;">
+                <t t-out="0"/>
+            </div>
+            <div class="footer o_standard_footer">
+                <div style="position:fixed; width:100%;">
+                    <img src="/school/static/src/img/crm_footer.jpg" style="width:100%;"/>
                 </div>
-                <div class="article o_report_layout_standard" style="padding: 20px;">
-                    <t t-out="0"/>
-                </div>
-                <div class="footer o_standard_footer"
-                     style="background-color: #f4f4f4; padding: 10px; border-top: 2px solid #18133B;">
-                    <div style="display: flex; justify-content: space-between; width: 100%; font-size: 14px; color: #808080;">
-
-                        <span t-esc="doc.company_id.street2"/>,
-                        <span t-esc="doc.company_id.city"/>,
-                        <span t-esc="doc.company_id.name"/>,
-                        <span t-esc="doc.company_id.street"/>
-                        ,
-                        <span t-esc="doc.company_id.zip"/>,
-                        <span t-esc="doc.company_id.state_id.name"/>,
-                        <span t-esc="doc.company_id.country_id.name"/>
-                    </div>
-                    <span t-esc="doc.company_id.website"/>
-                    <div style="text-align: center; font-size: 12px; color: #808080; margin-top: 5px;">
+                <div style="position:absolute; width:100%;">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="container">
+                            <div class="row" style="color: #808080;">
+                                <span t-esc="doc.company_id.street2"/>,
+                                <span t-esc="doc.company_id.city"/>,
+                                <span t-esc="doc.company_id.name"/>,
+                                <span t-esc="doc.company_id.street"/>,
+                            </div>
+                            <div class="row" style="color: #808080;">
+                                <span t-esc="doc.company_id.zip"/>,
+                                <span t-esc="doc.company_id.state_id.name"/>,
+                                <span t-esc="doc.company_id.country_id.name"/>.
+                            </div>
+                            <div class="row" style="color: #808080;">
+                                <p>contact:<span t-field="doc.company_id.email"/>,
+                                    <span t-field="doc.company_id.mobile"/>
+                                </p>
+                            </div>
+                            <span t-field="doc.company_id.website" style="color: blue;"/>
+                        </div>
+                    </t>
+                    <p style="text-align: center; font-size: 16px; margin-top: 5px;">
                         Page
-                        <!--                        <t t-esc="serial_num"/>-->
-                        <p style="text-align: center; font-size: 16px; margin-top: 10px;">
-                            <span class="page"/>
-                            <!--                            of-->
-                            <!--                            <span class="topage"/>-->
-                        </p>
-                    </div>
+                        <span class="page"/>
+                        /
+                        <span class="topage"/>
+                    </p>
                 </div>
-            </t>
+            </div>
         </template>
 
         <template id="report_invoice">
@@ -53,11 +52,11 @@
                 <t t-call="school.report_delivery_header_footer">
                     <t t-foreach="docs" t-as="doc">
                         <div class="page" style="padding: 30px;">
-                            <h2 style="text-align: right; color: #03421F; font-weight: bold; font-size: 36px; margin-bottom: 20px;">
+                            <h2 style="text-align: right; color: #03421F; font-weight: bold; font-size: 36px; margin-bottom: 10px;">
                                 QUOTATION
                             </h2>
                             <span t-esc="doc.payment_reference"
-                                  style="display: block; text-align: right; color: #D3D3D3; font-size: 24px; font-weight: 600; margin-bottom: 40px;">
+                                  style="display: block; text-align: right; color: #D3D3D3; font-size: 24px; font-weight: 600; margin-bottom: 20px;">
                                 Inv No
                             </span>
                             <div style="margin-bottom: 40px;">
@@ -82,7 +81,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div style="margin-bottom: 80px;">
+                            <div style="margin-bottom: 20px;">
                                 <table class="table table-bordered" style="width: 100%; border-collapse: collapse;">
                                     <thead style="background-color: #18133B; color: white; border: 1px solid black;">
                                         <tr>
@@ -113,7 +112,8 @@
                                 </table>
                             </div>
                             <div style="display: flex; justify-content: flex-end; width: 100%; font-size: 18px;">
-                                <table style="width: auto; margin-left: auto; border-collapse: collapse;" class="table table-borderless">
+                                <table style="width: auto; margin-left: auto; border-collapse: collapse;"
+                                       class="table table-borderless">
                                     <tbody style="border-top: 2px solid black; ">
                                         <tr style="border-top: 2px solid #18133B; color:#808080;">
                                             <td>
@@ -152,7 +152,7 @@
                             </div>
 
                             <div class="col-6"
-                                 style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 40px;">
+                                 style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 5px; background-image: url('/school/Static/images/crm_footer.jpg')">
                                 <h2 style="font-weight: bold; line-height: 1.5; color: #03421F;">BANK DETAILS</h2>
                                 <table style="width: auto; margin-top: 10px; text-align: left; border-collapse: collapse;"
                                        class="table table-borderless">
@@ -194,8 +194,8 @@
                             </div>
                         </div>
                         <div style="page-break-before: always;"></div>
-                        <div class="page2" style="padding: 30px;">
-                            <div style="text-align: center; margin-top: 30px;">
+                        <div class="page2" style="padding: 20px; margin-top:10px">
+                            <div style="text-align: center; margin-top: 10px;">
                                 <p style="font-family:'monospace'; color:#03421F; font-weight: bold; font-size: 28px;">
                                     GENERAL TERMS AND CONDITIONS
                                 </p>
