@@ -5,12 +5,9 @@
         <field name="name">school.fee.structure.tree</field>
         <field name="model">school.fee.structure</field>
         <field name="arch" type="xml">
-
             <tree string="Fee Structures">
-                <!--<field name="student_name"/>-->
-
                 <field name="product_ids"/>
-                 <field name="amount"/>
+                <field name="amount"/>
                 <field name="type_of_transaction"/>
                 <field name="tax"/>
                 <field name="date_due"/>
@@ -18,7 +15,7 @@
             </tree>
         </field>
     </record>
-
+    <!-- form view for student fee structure-->
     <record id="view_fee_structure_form" model="ir.ui.view">
         <field name="name">school.fee.structure.form</field>
         <field name="model">school.fee.structure</field>
@@ -30,14 +27,11 @@
                 </header>
                 <sheet>
                     <group>
-                        <!--<field name="student_id"/>
-                        <field name="student_name" readonly="1"/>-->
                         <field name="product_ids"/>
                         <field name="amount"/>
                         <field name="date_due"/>
                         <field name="tax" widget='many2many_tags'/>
                         <field name="type_of_transaction"/>
-
                     </group>
                 </sheet>
                 <div class="oe_chatter">
@@ -47,7 +41,7 @@
             </form>
         </field>
     </record>
-    <!-- Action Definition for Fee Structure -->
+    <!-- fee structure menu action-->
     <record id="action_school_fee_structure" model="ir.actions.act_window">
         <field name="name">Fee Structures/Transactions</field>
         <field name="res_model">school.fee.structure</field>

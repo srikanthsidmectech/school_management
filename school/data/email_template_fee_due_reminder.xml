@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- template for email remainder-->
     <data>
         <record id="email_template_fee_due_reminder" model="mail.template">
             <field name="name">Fee Due Reminder</field>
@@ -12,8 +13,8 @@
                 <span style="font-size: 20px; font-weight: bold;"
                       t-out="object.stu_name or ''">Student Name
                 </span>
-            <p>This is a reminder that your fee is due today. Please ensure that you make the payment promptly.</p>
-            <p>Thank you!</p>
+                <p>This is a reminder that your fee is due today. Please ensure that you make the payment promptly.</p>
+                <p>Thank you!</p>
             </field>
         </record>
     </data>

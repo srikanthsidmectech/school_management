@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 from datetime import datetime
 
 
+# student model
 class SchoolStudent(models.Model):
     _name = "school.student"
     _description = "School Student"
@@ -11,7 +12,6 @@ class SchoolStudent(models.Model):
 
     stu_name = fields.Char("Name", tracking=True)
     stu_standard = fields.Selection([
-
         ('7', '7'),
         ('8', '8'),
         ('9', '9'),
@@ -20,8 +20,6 @@ class SchoolStudent(models.Model):
     user_id = fields.Many2one('res.users', string='login id')
     user_name = fields.Char(related='user_id.name', string='User', tracking=True, readonly=True)
     email_id = fields.Char(string="Email", tracking=True)
-
-    # email=fields.Char(string="E-mail id")
     stu_address = fields.Text(string="Address", tracking=True)
     date_of_birth = fields.Date(string='Date of Birth', tracking=True)
     stu_guard = fields.Char(string="Guardian", required=True, tracking=True)
@@ -44,9 +42,10 @@ class SchoolStudent(models.Model):
     total_tax = fields.Float(string='Total Tax Amount', compute='_compute_totals', store=True)
     untaxed_amount = fields.Float(string='Untaxed Amount', compute='_compute_totals', store=True)
 
+    invoice_count = fields.Integer(string="invoice count", compute="_compute_invoice_count")
+    image = fields.Binary("Image", attachment=True)
 
-    invoice_count=fields.Integer(string="invoice count",compute="_compute_invoice_count")
-
+    # action for creating student
     def action_create_student(self):
         for record in self:
             if record.status == 'not_created':
@@ -58,12 +57,8 @@ class SchoolStudent(models.Model):
                     'groups_id': [(6, 0, [record.env.ref('school.group_school_student').id])]
                 }
 
-                # Create the user
                 user_record = self.env['res.users'].create(user_vals)
-
-                # Update the record status
                 record.status = 'created'
-
                 self.user_id = user_record.id
 
     @api.depends('fee_structure_ids')
@@ -89,6 +84,7 @@ class SchoolStudent(models.Model):
             else:
                 rec.class_teacher_subject = False
 
+    # computing age based on date of birth
     @api.depends('date_of_birth')
     def _compute_age(self):
         today = datetime.today()
@@ -100,6 +96,7 @@ class SchoolStudent(models.Model):
             else:
                 rec.age = 0
 
+    # it checks whether student guardian is existed or not..if existed then student can't be  created
     @api.model
     def create(self, vals):
         if vals.get('stu_guard'):
@@ -108,6 +105,18 @@ class SchoolStudent(models.Model):
                 raise ValidationError('A student with this guardian already exists.')
         return super(SchoolStudent, self).create(vals)
 
+    # getting current user company logo
+    def get_user_company_logo(self):
+        user_company = self.env.user.company_id
+        return user_company.logo
+
+    # update current user company logo to student image fields
+    def default_get(self, fields):
+        res = super(SchoolStudent, self).default_get(fields)
+        res['image'] = self.get_user_company_logo()
+        return res
+
+    # action for student suggestions adding in wizard view
     def action_student_suggestions(self):
         return {
             'name': _('Suggestion'),
@@ -121,36 +130,33 @@ class SchoolStudent(models.Model):
             }
         }
 
-
+    # automatic count invoices of student
     def _compute_invoice_count(self):
         self.invoice_count = self.env['account.move'].search_count(
             domain=[('partner_id', '=', self.user_id.partner_id.id)])
 
+    # action for creating student invoices
     def action_student_invoices(self):
         for record in self:
             partner_id = record.user_id.partner_id.id
-
             # Search for invoices related to the student's partner
             student_invoices = self.env['account.move'].search([
                 ('partner_id', '=', partner_id),
                 ('move_type', '=', 'out_invoice')
             ])
-
             if student_invoices:
                 invoice_lines = [(0, 0, {
                     'invoice_date': inv.invoice_date,
                     'payment_ref': inv.payment_reference,
                     'due_date': inv.invoice_date_due,
                 }) for inv in student_invoices]
-                count=len(invoice_lines)
+                count = len(invoice_lines)
                 print(count)
-
-
                 return {
                     'name': _('Invoices'),
                     'view_mode': 'tree,form',
                     'res_model': 'account.move',
-                    'domain': [('partner_id','=',partner_id)],
+                    'domain': [('partner_id', '=', partner_id)],
                     'type': 'ir.actions.act_window',
                     'context': {
                         'default_student_name': record.stu_name,
@@ -169,11 +175,13 @@ class SchoolStudent(models.Model):
                     }
                 }
 
+    # student suggestions count
     @api.depends('suggestion_ids')
     def _compute_suggestion_count(self):
         self.suggestion_count = self.env['school.student.suggestion'].search_count(
             domain=[('student_name', '=', self.stu_name)])
 
+    # action for viewing student suggestions
     def action_view_suggestions(self):
         return {
             'name': _('Suggestion'),
@@ -187,6 +195,7 @@ class SchoolStudent(models.Model):
             }
         }
 
+    #
     @api.model
     def search(self, domain=[], *args, **kwargs):
         # Add the filter to restrict access to own records
@@ -194,11 +203,13 @@ class SchoolStudent(models.Model):
             domain += [('user_id', '=', self.env.user.id)]
         return super(SchoolStudent, self).search(domain, *args, **kwargs)
 
+    # activity schedule
     def send_student_invitation(self):
         template = self.env.ref('school.email_template_school_student_invitation')
         for record in self:
             template.send_mail(record.id, force_send=True)
 
+    # updating fee state
     def update_FeeState(self):
         print("Updates are working")
         today = datetime.today().date()

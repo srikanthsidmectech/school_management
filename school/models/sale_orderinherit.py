@@ -1,5 +1,7 @@
 from odoo import models, fields
 
+
+# sale order inherit model for accounting section
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -10,7 +12,7 @@ class SaleOrder(models.Model):
     bank_Ifsc_code = fields.Char(string="Bank Ifsc Code")
 
 
-
+# sale order inline sections product brand view
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 

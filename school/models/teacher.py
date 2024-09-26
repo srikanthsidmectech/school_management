@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
+# teacher model
 class SchoolTeacher(models.Model):
     _name = "school.teacher"
     _description = "School Teacher"
@@ -31,7 +32,7 @@ class SchoolTeacher(models.Model):
 
     user_id = fields.Many2one('res.users', string='login id')
     user_name = fields.Char(related='user_id.name', string='User', tracking=True, readonly=True)
-
+    #action for creating student
     def action_create_teacher(self):
         for record in self:
             if record.status == 'not_created':
@@ -44,15 +45,13 @@ class SchoolTeacher(models.Model):
                 }
 
                 # Create the user
-                user_record=self.env['res.users'].create(user_vals)
+                user_record = self.env['res.users'].create(user_vals)
 
                 # Update the record status
                 record.status = 'created'
 
                 self.user_id = user_record.id
-
-
-
+    #fetch teachers details and if it existed it can't be created.
     @api.model
     def create(self, vals):
         if vals.get('name'):

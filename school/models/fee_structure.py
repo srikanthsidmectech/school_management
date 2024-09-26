@@ -1,6 +1,7 @@
 from odoo import fields, models, api
 
 
+# school fee structure model
 class SchoolFeeStructure(models.Model):
     _name = "school.fee.structure"
     _description = "Fee Structure"
@@ -10,17 +11,8 @@ class SchoolFeeStructure(models.Model):
     student_id = fields.Many2one('school.student', string='Student', tracking=True)
     # student_name = fields.Char(related='student_id.stu_name', string='Student Name', readonly=True,tracking=True)
     type_of_transaction = fields.Many2one('school.fee.transaction', string='Type of Transaction', tracking=True)
-
     product_ids = fields.Many2one("product.template", string="product")
-
-    fee_name=fields.Char(string="Name")
-
-    # fee_type = fields.Selection([
-    #     ('tuition', 'Tuition Fee'),
-    #     ('lab', 'Lab Fee'),
-    #     ('sports', 'Sports Fee'),
-    #     ('other', 'Other Fee')
-    # ], string='Fee Type')
+    fee_name = fields.Char(string="Name")
     tax = fields.Many2many('account.tax', string="Tax")
     amount = fields.Float(string='Amount', default=0.0, tracking=True)
     date_due = fields.Date(string='Due Date', tracking=True)
@@ -31,11 +23,13 @@ class SchoolFeeStructure(models.Model):
 
     invoice_id = fields.Many2one('account.move', string="invoice")
 
+    # action  for updating status
     def action_set_paid(self):
         for record in self:
             if record.status == 'not_paid':
                 record.status = 'paid'
 
+    # automatic calculating total and tax amounts based on taxes
     @api.depends('amount', 'tax')
     def _compute_total_amount(self):
         for record in self:
@@ -50,26 +44,10 @@ class SchoolFeeStructure(models.Model):
     total_amount = fields.Float(string='Total Amount', compute='_compute_total_amount', store=True)
     total_tax = fields.Float(string='Total tax amount', compute='_compute_total_amount', store=True)
 
+    # create invoice
     def action_button_method(self):
         print("Button action triggered")
         for record in self:
-            # Verify the student record
-            # if record.status == 'not_paid':
-            #     record.status = 'paid'
-            # if record.status == 'paid':
-            #     record.status = 'not_paid'
-            # if not record.student_id:
-            #     print(f"No student found for fee structure {record.id}")
-            #     continue
-            #
-            # if not record.student_id.user_id:
-            #     print(f"No user found for student {record.student_id.id}")
-            #     continue
-            #
-            # if not record.student_id.user_id.partner_id:
-            #     print(f"No partner found for user {record.student_id.user_id.id}")
-            #     raise ValueError("No partner found for student")
-
             partner_id = record.student_id.user_id.partner_id.id
             print(f"Partner ID: {partner_id}")
 
@@ -81,11 +59,8 @@ class SchoolFeeStructure(models.Model):
                     'res_model': 'account.move',
                     "res_id": self.invoice_id.id,
                     'target': 'current'
-
                 }
-
             else:
-                # Create the invoice
                 invoice = self.env['account.move'].create({
                     'partner_id': partner_id,  # Set the partner ID here
                     'invoice_date': fields.Date.today(),  # Set invoice date as today
@@ -109,7 +84,7 @@ class SchoolFeeStructure(models.Model):
                 'view_mode': 'form',
             }
 
-    # @api.depends('student_id')
+    # automatic rendering fee status based on invoice payment status
     def _compute_state_payment(self):
         for record in self:
             if record.invoice_id:

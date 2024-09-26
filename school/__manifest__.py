@@ -3,7 +3,7 @@
     'category': 'management',
     'version': '17.0.0.2',
     'author': 'SREEKANTH',
-    'depends': ['mail', 'sale', 'report_xlsx'],
+    'depends': ['mail', 'sale', 'report_xlsx', 'base', 'web'],
     'data': [
         'security/ir.model.access.csv',
         'data/email.xml',

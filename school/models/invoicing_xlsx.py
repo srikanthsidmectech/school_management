@@ -93,9 +93,9 @@ class PartnerXlsx(models.AbstractModel):
             sheet.merge_range('A9:D9', f"{company_ciy},{company_stree2}")
             sheet.merge_range('A10:D10', f"{company_zip},{company_state},{company_country}")
 
-            sheet.merge_range('K2:M3', f"QUOTATION",workbook.add_format({'bold':True,'font_size': 20}))
-            sheet.merge_range('I8:J8', f"Date:")
-            sheet.merge_range('K8:M8', f"{obj.invoice_date.strftime('%d %B, %Y')}")
+            sheet.merge_range('K2:N3', f"QUOTATION",workbook.add_format({'bold':True,'font_size': 20,'align':'center',}))
+            sheet.write(7,10, f"Date:")
+            sheet.merge_range('L8:N8', f"{obj.invoice_date.strftime('%d %B, %Y')}")
 
             sheet.merge_range('A13:D13', f"INVOICE ADDRESS", h_b_format)
             sheet.merge_range('A14:D14', f"{obj.partner_id.city},{obj.partner_id.street}")
@@ -122,18 +122,25 @@ class PartnerXlsx(models.AbstractModel):
             sheet.merge_range('M21:N21', f"{obj.delivery_date}", border_format)
 
             sheet.merge_range('A24:F24', f"DESCRIPTION", h_b_format)
-            sheet.merge_range('G24:H24', f"UNIT PRICE", h_b_format)
-            sheet.merge_range('I24:J24', f"QTY", h_b_format)
-            sheet.merge_range('K24:L24', f"AMOUNT", h_b_format)
+            sheet.merge_range('G24:I24', f"UNIT PRICE", h_b_format)
+            sheet.merge_range('J24:K24', f"QTY", h_b_format)
+            sheet.merge_range('L24:N24', f"AMOUNT", h_b_format)
             start_row = 24
 
             # Iterate through each invoice line item
             for line in obj.invoice_line_ids:
-                sheet.merge_range(start_row, 0, start_row, 5, line.name, border_format)  # Write DESCRIPTION in column A
-                sheet.merge_range(start_row, 6, start_row, 7, f"{obj.currency_id.symbol} {line.price_unit}",
+                # product_name=line.name.split(',')
+                # product_names=""
+                # if len(product_name)>1:
+                #     for product in product_name:
+                #         product_names+="\n"+ "*"+product
+                # else:
+                #     product_names=product_name[0]
+                sheet.merge_range(start_row, 0, start_row, 5, line.name, workbook.add_format({'border': 1, 'text_wrap': True}))  # Write DESCRIPTION in column A
+                sheet.merge_range(start_row, 6, start_row, 8, f"{obj.currency_id.symbol} {line.price_unit}",
                                   border_format)  # Write UNIT PRICE in column G
-                sheet.merge_range(start_row, 8, start_row, 9, line.quantity, border_format)  # Write QTY in column I
-                sheet.merge_range(start_row, 10, start_row, 11, f"{obj.currency_id.symbol} {line.price_total}",
+                sheet.merge_range(start_row, 9, start_row, 10, line.quantity, border_format)  # Write QTY in column I
+                sheet.merge_range(start_row, 11, start_row, 13, f"{obj.currency_id.symbol} {line.price_total}",
                                   border_format)  # Write AMOUNT in column K
 
                 # Move to the next row for the next invoice line
@@ -161,8 +168,8 @@ class PartnerXlsx(models.AbstractModel):
 
             # Add borders to the entire range
 
-            sheet.merge_range(start_row, 9, start_row, 10, "UNTAXED AMOUNT", border_format)
-            sheet.merge_range(start_row, 11, start_row, 12, f"{obj.currency_id.symbol} {obj.amount_untaxed}", border_format)
+            sheet.merge_range(start_row, 10, start_row, 11, "UNTAXED AMOUNT", border_format)
+            sheet.merge_range(start_row, 12, start_row, 13, f"{obj.currency_id.symbol} {obj.amount_untaxed}", border_format)
 
             # Move to the next row after notes
             start_row += 1
@@ -171,21 +178,21 @@ class PartnerXlsx(models.AbstractModel):
             tax_groups = obj.tax_totals['groups_by_subtotal'].get('Untaxed Amount', [])
 
             if isinstance(tax_groups, list) and len(tax_groups) > 0:
-                sheet.merge_range(start_row, 9, start_row, 10, tax_groups[0]['tax_group_name'], border_format)
-                sheet.merge_range(start_row, 11, start_row, 12, tax_groups[0]['formatted_tax_group_amount'],
+                sheet.merge_range(start_row, 10, start_row, 11, tax_groups[0]['tax_group_name'], border_format)
+                sheet.merge_range(start_row, 12, start_row, 13, tax_groups[0]['formatted_tax_group_amount'],
                                   border_format)
                 start_row += 1
-                sheet.merge_range(start_row, 9, start_row, 10, tax_groups[1]['tax_group_name'], border_format)
-                sheet.merge_range(start_row, 11, start_row, 12, tax_groups[1]['formatted_tax_group_amount'],
+                sheet.merge_range(start_row, 10, start_row, 11, tax_groups[1]['tax_group_name'], border_format)
+                sheet.merge_range(start_row, 12, start_row, 13, tax_groups[1]['formatted_tax_group_amount'],
                                   border_format)
             else:
-                sheet.merge_range(start_row, 9, start_row, 10, "No tax group", border_format)
-                sheet.merge_range(start_row, 11, start_row, 11, "0", border_format)
+                sheet.merge_range(start_row, 10, start_row, 11, "No tax group", border_format)
+                sheet.merge_range(start_row, 12, start_row, 13, "0", border_format)
 
             # Move to the next row for total amount
             start_row += 2  # Adjust for spacing
-            sheet.merge_range(start_row, 9, start_row, 10, "TOTAL AMOUNT", border_format)
-            sheet.merge_range(start_row, 11, start_row, 12, f"{obj.currency_id.symbol} {obj.amount_total}",
+            sheet.merge_range(start_row, 10, start_row, 11, "TOTAL AMOUNT", border_format)
+            sheet.merge_range(start_row, 12, start_row, 13, f"{obj.currency_id.symbol} {obj.amount_total}",
                               border_format)
 
             # Move to the next row for thank you message

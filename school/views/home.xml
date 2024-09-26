@@ -8,49 +8,48 @@
               name="Student"
               parent="SRK_School"
     />
+    <!-- student menu item-->
     <menuitem id="School_student_"
               name="Student"
               parent="School_student"
               action="action_school_student"
               groups="school.group_school_student"
     />
-
+    <!-- teacher menu item-->
     <menuitem id="school_teacher"
               name="Teacher"
               parent="SRK_School"
               action="action_school_teacher"
               groups="school.group_school_teacher"
     />
-
+    <!-- student fee structure menu item-->
     <menuitem id="school_fee_structure"
               name="Fee Structure"
               parent="School_student"
               action="action_school_fee_structure"
               groups="school.group_school_management"/>
-
+    <!-- student admission menu item-->
     <menuitem id="school_query"
               name="Admission"
               parent="SRK_School"
               action="action_school_query"
               groups="school.group_school_management"/>
-
+    <!-- bank transaction journals menu item-->
     <menuitem id="school_fee_transaction"
               name="Journal"
               parent="SRK_School"
               action="action_school_transaction_journal"
               groups="school.group_school_management"/>
-    <!-- Menu Item Definition -->
+    <!-- student suggestion menu item-->
     <menuitem id="menu_student_suggestions"
               name="Student Suggestions"
               parent="School_student"
               action="action_student_suggestions"
               groups="school.group_school_management"/>
-
+    <!-- product brand menu item-->
     <menuitem id="menu_product_brand"
               name="Product Brand"
               parent="SRK_School"
               action="action_product_brand"
               groups="school.group_school_management"/>
-
-
 </odoo>

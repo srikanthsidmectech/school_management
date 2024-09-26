@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!-- Tree View Definition -->
+    <!-- product brand tree view -->
     <record id="view_product_brand_tree" model="ir.ui.view">
         <field name="name">product.brand.tree</field>
         <field name="model">product.brand</field>
@@ -11,7 +11,7 @@
         </field>
     </record>
 
-    <!-- Form View Definition -->
+    <!-- product brand form view-->
     <record id="view_product_brand_form" model="ir.ui.view">
         <field name="name">product.brand.form</field>
         <field name="model">product.brand</field>
@@ -26,7 +26,7 @@
         </field>
     </record>
 
-    <!-- Action Definition -->
+    <!-- product brand menu action -->
     <record id="action_product_brand" model="ir.actions.act_window">
         <field name="name">Product Brand</field>
         <field name="res_model">product.brand</field>

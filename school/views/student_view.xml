@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!-- Tree View Definition -->
+    <!-- kanban student form-->
+    <record id="quick_create_student_form" model="ir.ui.view">
+        <field name="name">school.student.form.quick_create</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <div>
+                        <div>
+                            <p>Name:
+                                <field name="stu_name"/>
+                            </p>
+                            <p>Standard:
+                                <field name="stu_standard"/>
+                            </p>
+                            <p>Guardian:
+                                <field name="stu_guard"/>
+                            </p>
+                            <p>Email:
+                                <field name="email_id"/>
+                            </p>
+                        </div>
+                        <div>
+                            <p>DOB:
+                                <field name="date_of_birth"/>
+                            </p>
+                            <p>Age:
+                                <field name="age"/>
+                            </p>
+                            <p>DOJ:
+                                <field name="date_of_joining"/>
+                            </p>
+                        </div>
+                    </div>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!--Student kanban view -->
+    <record id="view_school_student_kanban" model="ir.ui.view">
+        <field name="name">school.student.kanban</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" quick_create_view="school.quick_create_student_form"
+                    default_order="status desc"
+                    on_create="quick_create">
+                <field name="stu_name"/>
+                <field name="stu_standard"/>
+                <field name="email_id"/>
+                <field name="date_of_birth"/>
+                <field name="age"/>
+                <field name="date_of_joining"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_details" style="position: relative;">
+                            <div class="d-flex">
+                                <div class="o_kanban_image d-none d-md-block"
+                                     t-attf-style="background-image:url('#{kanban_image('school.student','image',record.id.raw_value,placeholder)}'); background-size: cover; background-position: center; height: 100px; width: 100px;">
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <field name="status" widget="statusbar" options="{'clickable': True}"/>
+                                    <div style="padding: 2px; margin-bottom: 10px; margin-top: 20px;">
+                                        <field name="stu_name" style="color:blue; font-size:20px;"/>
+                                        <p>Standard:
+                                            <field name="stu_standard"/>
+                                        </p>
+                                        <p>DOB:
+                                            <field name="date_of_birth" widget="date"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+    <!--student Tree view -->
     <record id="view_school_student_tree" model="ir.ui.view">
         <field name="name">school.student.tree</field>
         <field name="model">school.student</field>
@@ -17,7 +98,7 @@
         </field>
     </record>
 
-    <!-- Form View Definition -->
+    <!-- student form view -->
     <record id="view_school_student_form" model="ir.ui.view">
         <field name="name">school.student.form</field>
         <field name="model">school.student</field>
@@ -40,7 +121,7 @@
                                 <span class="o_stat_text">Invoices</span>
                             </div>
                         </button>
-                         <button name="action_view_suggestions"
+                        <button name="action_view_suggestions"
                                 type="object"
                                 class="oe_stat_button"
                                 icon="fa-star">
@@ -50,6 +131,13 @@
                             </div>
                         </button>
                     </div>
+
+                    <div>
+                        <field name="image" class="oe_avatar" widget="image"
+                               options="{&quot;image&quot;: &quot;avatar_128&quot;}"
+                               editable="True"/>
+                    </div>
+
                     <group>
                         <field name="stu_name"/>
                         <field name="stu_standard"/>
@@ -102,7 +190,7 @@
                     </notebook>
                     <div class="o_form_field">
                         <group class="float-end text-end">
-                             <field name="untaxed_amount"/>
+                            <field name="untaxed_amount"/>
                             <field name="total_tax"/>
                             <field name="total_amount"/>
                         </group>
@@ -115,11 +203,13 @@
             </form>
         </field>
     </record>
-    <!-- Action Definition -->
+
+
+    <!-- student menu action -->
     <record id="action_school_student" model="ir.actions.act_window">
         <field name="name">Student</field>
         <field name="res_model">school.student</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="view_id" ref="view_school_student_tree"/>
     </record>
 

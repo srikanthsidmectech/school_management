@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
+     <!-- journal tree view-->
     <record id="view_fee_journal_tree" model="ir.ui.view">
         <field name="name">school.fee.transaction.tree</field>
         <field name="model">school.fee.transaction</field>
@@ -12,7 +12,7 @@
             </tree>
         </field>
     </record>
-
+     <!-- journal form view-->
     <record id="view_fee_journal_form" model="ir.ui.view">
         <field name="name">school.fee.transaction.form</field>
         <field name="model">school.fee.transaction</field>
@@ -29,7 +29,7 @@
             </form>
         </field>
     </record>
-
+     <!-- teacher menu action-->
     <record id="action_school_transaction_journal" model="ir.actions.act_window">
         <field name="name">Journal</field>
         <field name="res_model">school.fee.transaction</field>

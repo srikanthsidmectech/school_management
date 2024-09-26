@@ -1,5 +1,5 @@
 <odoo>
-
+    <!--invoicing inherit custom fields from view-->
     <record id="view_move_form_inherit" model="ir.ui.view">
         <field name="name">account.move.form.inherit</field>
         <field name="model">account.move</field>
@@ -16,11 +16,10 @@
             <xpath expr="//notebook/page[@name='other_info']/group/group[@name='accounting_info_group']/field[@name='company_id']"
                    position="after">
                 <field name="bank_Name"/>
-                 <field name="bank_Account_number"/>
-                 <field name="bank_Branch"/>
-                 <field name="bank_Ifsc_code"/>
+                <field name="bank_Account_number"/>
+                <field name="bank_Branch"/>
+                <field name="bank_Ifsc_code"/>
             </xpath>
-
         </field>
     </record>
 </odoo>

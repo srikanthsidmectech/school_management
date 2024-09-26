@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <odoo>
-    <!-- Tree View Definition -->
+    <!-- student suggestion tree view-->
     <record id="view_student_suggestions_tree" model="ir.ui.view">
         <field name="name">school.student.suggestion.tree</field>
         <field name="model">school.student.suggestion</field>
@@ -13,7 +12,7 @@
             </tree>
         </field>
     </record>
-
+    <!-- student suggestion form view-->
     <record id="view_student_suggestions_form" model="ir.ui.view">
         <field name="name">school.student.suggestion.form</field>
         <field name="model">school.student.suggestion</field>
@@ -21,7 +20,6 @@
             <form string="Suggestions">
                 <sheet>
                     <group>
-                        <!--                        <field name="student_id"/>-->
                         <field name="student_name"/>
                         <field name="stu_guard"/>
                         <field name="suggestion"/>
@@ -38,7 +36,7 @@
             </form>
         </field>
     </record>
-    <!-- Action Definition -->
+    <!-- student suggestion menu action-->
     <record id="action_student_suggestions" model="ir.actions.act_window">
         <field name="name">Student Suggestions</field>
         <field name="res_model">school.student.suggestion</field>
@@ -46,5 +44,4 @@
         <field name="view_id" ref="view_student_suggestions_tree"/>
         <field name="view_id" ref="view_student_suggestions_form"/>
     </record>
-
 </odoo>

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <record id="school_query_pivot_view" model="ir.ui.view">
+        <field name="name">school.query.pivot</field>
+        <field name="model">school.query</field>
+        <field name="arch" type="xml">
+            <pivot string="query pivot view">
+                <field name="student_name" type="row"/>
+                <field name="student_class" type="col"/>
+            </pivot>
+        </field>
+    </record>
     <!-- Tree View Definition -->
     <record id="view_school_query_tree" model="ir.ui.view">
         <field name="name">school.query.tree</field>
@@ -48,9 +58,8 @@
     <record id="action_school_query" model="ir.actions.act_window">
         <field name="name">Admission</field>
         <field name="res_model">school.query</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
         <field name="view_id" ref="view_school_query_tree"/>
     </record>
-
 
 </odoo>
