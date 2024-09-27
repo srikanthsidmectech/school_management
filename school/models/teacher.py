@@ -33,6 +33,7 @@ class SchoolTeacher(models.Model):
     user_id = fields.Many2one('res.users', string='login id')
     user_name = fields.Char(related='user_id.name', string='User', tracking=True, readonly=True)
     #action for creating student
+    image = fields.Binary("Image", attachment=True)
     def action_create_teacher(self):
         for record in self:
             if record.status == 'not_created':
@@ -59,3 +60,13 @@ class SchoolTeacher(models.Model):
             if existing_teacher:
                 raise ValidationError('A teacher with this guardian already exists.')
         return super(SchoolTeacher, self).create(vals)
+
+    def get_user_company_logo_(self):
+        user_company = self.env.user.company_id
+        return user_company.logo
+
+    # update current user company logo to student image fields
+    def default_get(self, fields):
+        res = super(SchoolTeacher, self).default_get(fields)
+        res['image'] = self.get_user_company_logo_()
+        return res

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <record id="school_fee_structure_pivot_view" model="ir.ui.view">
+        <field name="name">school.fee.structure.pivot</field>
+        <field name="model">school.fee.structure</field>
+        <field name="arch" type="xml">
+            <pivot string="fee structure pivot view">
+                <field name="amount" type="row"/>
+                <field name="date_due" type="col" interval="day"/>
+            </pivot>
+        </field>
+    </record>
     <!-- Tree View Definition for Fee Structure -->
     <record id="view_fee_structure_tree" model="ir.ui.view">
         <field name="name">school.fee.structure.tree</field>
@@ -45,7 +55,7 @@
     <record id="action_school_fee_structure" model="ir.actions.act_window">
         <field name="name">Fee Structures/Transactions</field>
         <field name="res_model">school.fee.structure</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
         <field name="view_id" ref="view_fee_structure_tree"/>
     </record>
 </odoo>

@@ -17,3 +17,10 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     brand_id = fields.Many2one('product.brand', string='Brand')
+
+
+class User_Payment_Terms(models.Model):
+    _inherit= 'res.users'
+
+    payment_term= fields.Char("payment terms")
+

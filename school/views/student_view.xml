@@ -54,8 +54,13 @@
                 <field name="age"/>
                 <field name="date_of_joining"/>
                 <templates>
+                    <t t-name="kanban-menu">
+                            <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                            <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                        </t>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_details" style="position: relative;">
+                        <div class="oe_kanban_details" style="position: relative; padding: 10px;">
                             <div class="d-flex">
                                 <div class="o_kanban_image d-none d-md-block"
                                      t-attf-style="background-image:url('#{kanban_image('school.student','image',record.id.raw_value,placeholder)}'); background-size: cover; background-position: center; height: 100px; width: 100px;">
@@ -81,6 +86,17 @@
         </field>
     </record>
 
+    <!-- student pivot view-->
+    <record id="school_student_pivot_view" model="ir.ui.view">
+        <field name="name">school.student.pivot</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <pivot string="student pivot view">
+                <field name="stu_name" type="row"/>
+                <field name="stu_standard" type="col"/>
+            </pivot>
+        </field>
+    </record>
     <!--student Tree view -->
     <record id="view_school_student_tree" model="ir.ui.view">
         <field name="name">school.student.tree</field>
@@ -209,7 +225,7 @@
     <record id="action_school_student" model="ir.actions.act_window">
         <field name="name">Student</field>
         <field name="res_model">school.student</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,tree,form,pivot</field>
         <field name="view_id" ref="view_school_student_tree"/>
     </record>
 
