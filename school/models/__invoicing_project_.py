@@ -16,6 +16,7 @@ class AccountMove(models.Model):
     bank_Ifsc_code = fields.Char(string="Bank Ifsc Code")
 
 
+
 # invoicing account inline sections
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
@@ -24,3 +25,5 @@ class AccountMoveLine(models.Model):
         'school.fee.structure',
         string='Fee Structure'
     )
+
+    brand_ids = fields.Many2one("product.brand",string="Brand")
